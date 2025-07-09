@@ -37,13 +37,11 @@
       }
     }
   }
-}
-
-.profile-container {
-  position: relative;
-  aspect-ratio: 2/3;
-  overflow: hidden;
-  background: var(--mdc-theme-surface-variant);
+}  .profile-container {
+    position: relative;
+    aspect-ratio: 2/3;
+    overflow: hidden;
+    background: var(--surface-variant-color);
 
   .profile-image {
     width: 100%;
@@ -55,30 +53,28 @@
     &.loaded {
       opacity: 1;
     }
-  }
+  }    .popularity-badge {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(76, 175, 80, 0.9);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
 
-  .popularity-badge {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: rgba(76, 175, 80, 0.9);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    mat-icon {
-      font-size: 0.875rem;
-      width: 0.875rem;
-      height: 0.875rem;
+      mat-icon {
+        font-size: 0.875rem;
+        width: 0.875rem;
+        height: 0.875rem;
+      }
     }
-  }
 
   .hover-overlay {
     position: absolute;
@@ -140,96 +136,88 @@
     &:hover {
       color: var(--accent-color);
     }
-  }
+  }    .person-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
 
-  .person-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-    flex-wrap: wrap;
+      .department,
+      .gender {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        background: var(--surface-variant-color);
+        padding: 0.125rem 0.5rem;
+        border-radius: 8px;
+      }
 
-    .department,
-    .gender {
-      font-size: 0.75rem;
-      color: var(--mdc-theme-on-surface-variant);
-      background: var(--mdc-theme-surface-variant);
-      padding: 0.125rem 0.5rem;
-      border-radius: 8px;
-    }
-
-    .department {
-      font-weight: 500;
-      color: var(--mdc-theme-primary);
-      background: var(--mdc-theme-primary-container);
-    }
-  }
-
-  .known-for {
-    .known-for-label {
-      font-size: 0.75rem;
-      color: var(--mdc-theme-on-surface-variant);
-      font-weight: 500;
-      display: block;
-      margin-bottom: 0.25rem;
-    }
-
-    .known-for-movies {
-      font-size: 0.75rem;
-      color: var(--mdc-theme-on-surface-variant);
-      line-height: 1.4;
-
-      .movie-title {
+      .department {
         font-weight: 500;
-        color: var(--mdc-theme-on-surface);
+        color: var(--accent-color);
+        background: var(--surface-variant-color);
+      }
+    }    .known-for {
+      .known-for-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      .known-for-movies {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+
+        .movie-title {
+          font-weight: 500;
+          color: var(--text-color);
+        }
       }
     }
-  }
-}
+}  .card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
 
-.card-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--mdc-theme-outline-variant);
+    .more-actions-btn {
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
 
-  .more-actions-btn {
-    color: var(--mdc-theme-on-surface-variant);
-    transition: all 0.2s ease;
+      &:hover {
+        color: var(--accent-color);
+        background: var(--surface-variant-color);
+      }
+    }
+  }  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(var(--surface-color), 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--accent-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
 
-    &:hover {
-      color: var(--mdc-theme-primary);
-      background: var(--mdc-theme-primary-container);
+    .spinning {
+      animation: spin 1s linear infinite;
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
     }
   }
-}
-
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(var(--mdc-theme-surface-rgb), 0.9);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  color: var(--mdc-theme-primary);
-  font-size: 0.875rem;
-  font-weight: 500;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-
-  .spinning {
-    animation: spin 1s linear infinite;
-    font-size: 2rem;
-    width: 2rem;
-    height: 2rem;
-  }
-}
 
 // Animations
 @keyframes spin {
@@ -240,17 +228,17 @@
 // Dark theme adjustments
 :host-context(.dark-theme) {
   .person-card {
-    background: var(--mdc-theme-surface);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: var(--surface-color);
+    border-color: var(--border-color);
 
     &:hover {
-      border-color: var(--mdc-theme-primary);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+      border-color: var(--accent-color);
+      box-shadow: 0 16px 32px var(--shadow-color);
     }
   }
 
   .profile-container {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface-variant-color);
   }
 
   .popularity-badge {
@@ -258,11 +246,11 @@
   }
 
   .card-actions {
-    border-top-color: rgba(255, 255, 255, 0.12);
+    border-top-color: var(--border-color);
   }
 
   .loading-overlay {
-    background: rgba(var(--mdc-theme-surface-rgb), 0.95);
+    background: rgba(var(--surface-color), 0.95);
   }
 }
 

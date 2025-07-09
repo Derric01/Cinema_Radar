@@ -64,7 +64,8 @@
               "prerender": {
                 "discoverRoutes": true,
                 "routesFile": "routes.txt"
-              }
+              },
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,

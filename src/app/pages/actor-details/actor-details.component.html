@@ -30,6 +30,18 @@
         </div>
 
         <div class="action-buttons">
+          <app-favorites-button 
+            [item]="getPersonForButtons()"
+            type="person"
+            size="medium">
+          </app-favorites-button>
+
+          <app-watchlist-button 
+            [item]="getPersonForButtons()"
+            type="person"
+            size="medium">
+          </app-watchlist-button>
+
           <button mat-raised-button color="primary" (click)="shareActor()">
             <mat-icon>share</mat-icon>
             Share
@@ -50,7 +62,11 @@
     <h2>Known For</h2>
     <div class="movies-grid">
       <div *ngFor="let movie of knownForMovies" class="movie-item" [routerLink]="['/movie', movie.id]">
-        <img [src]="tmdbService.getImageUrl(movie.poster_path, 'w300')" [alt]="movie.title + ' poster'" [title]="movie.title" class="movie-poster">
+        <img [src]="tmdbService.getImageUrl(movie.poster_path, 'w300')" 
+             [alt]="movie.title + ' poster'" 
+             [title]="movie.title"
+             class="movie-poster"
+             loading="lazy">
         <h3>{{ movie.title }}</h3>
         <p>{{ movie.release_date | date: 'yyyy' }}</p>
       </div>

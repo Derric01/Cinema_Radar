@@ -1,7 +1,7 @@
 <div class="app-container">
   <!-- Loading Progress Bar -->
   <mat-progress-bar 
-    [style.display]="(loadingService.isLoading$ | async) ? 'block' : 'none'"
+    [style.display]="(isLoading$ | async) ? 'block' : 'none'"
     mode="indeterminate" 
     color="accent"
     class="global-loading-bar">

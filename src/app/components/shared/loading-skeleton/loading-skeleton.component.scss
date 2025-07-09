@@ -38,10 +38,10 @@
 }
 
 .skeleton-card {
-  border: 1px solid var(--mdc-theme-outline-variant);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   overflow: hidden;
-  background: var(--mdc-theme-surface);
+  background: var(--surface-color);
 
   .skeleton-poster {
     aspect-ratio: 2/3;
@@ -74,7 +74,7 @@
       justify-content: space-between;
       align-items: center;
       padding-top: 0.5rem;
-      border-top: 1px solid var(--mdc-theme-outline-variant);
+      border-top: 1px solid var(--border-color);
 
       .skeleton-button {
         height: 2rem;
@@ -97,9 +97,9 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border: 1px solid var(--mdc-theme-outline-variant);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: var(--mdc-theme-surface);
+  background: var(--surface-color);
 
   .skeleton-avatar {
     width: 3rem;
@@ -239,12 +239,12 @@
 
   .skeleton-card,
   .skeleton-list-item {
-    background: var(--mdc-theme-surface);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: var(--surface-color);
+    border-color: var(--border-color);
   }
 
   .skeleton-content .skeleton-actions {
-    border-top-color: rgba(255, 255, 255, 0.12);
+    border-top-color: var(--border-color);
   }
 }
 

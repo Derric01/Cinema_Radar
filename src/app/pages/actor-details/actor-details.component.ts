@@ -11,8 +11,11 @@ import { TmdbService } from '../../services/tmdb.service';
 import { LoadingService } from '../../services/loading.service';
 import { ShareService } from '../../services/share.service';
 import { FavoritesService } from '../../services/favorites.service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { Person, PersonDetails, PersonMovieCredits } from '../../models/person.model';
 import { Movie } from '../../models/movie.model';
+import { FavoritesButtonComponent } from '../../components/shared/favorites-button/favorites-button.component';
+import { WatchlistButtonComponent } from '../../components/shared/watchlist-button/watchlist-button.component';
 
 @Component({
   selector: 'app-actor-details',
@@ -22,7 +25,9 @@ import { Movie } from '../../models/movie.model';
     MatIconModule,
     MatButtonModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FavoritesButtonComponent,
+    WatchlistButtonComponent
   ],
   templateUrl: './actor-details.component.html',
   styleUrl: './actor-details.component.scss'
@@ -40,7 +45,8 @@ export class ActorDetailsComponent implements OnInit, OnDestroy {
     public tmdbService: TmdbService,
     public loadingService: LoadingService,
     private shareService: ShareService,
-    private favoritesService: FavoritesService
+    private favoritesService: FavoritesService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit(): void {
@@ -68,9 +74,16 @@ export class ActorDetailsComponent implements OnInit, OnDestroy {
       this.person = details || null;
       this.credits = credits || null;
       this.knownForMovies = credits?.cast?.slice(0, 12) || [];
+      
+      // Track actor view
+      if (this.person) {
+        this.analyticsService.trackEvent('actor_view', 'actor_interaction', this.person.name, this.person.id);
+      }
+      
       this.loadingService.setLoading('actor-details', false);
     }).catch(error => {
       console.error('Failed to load person details:', error);
+      this.analyticsService.trackError('actor_details_load_error', '/actor-details');
       this.loadingService.setLoading('actor-details', false);
     });
   }
@@ -88,6 +101,10 @@ export class ActorDetailsComponent implements OnInit, OnDestroy {
         known_for: [], // Empty array since we don't have this data
         gender: this.person.gender
       };
+      
+      // Track share event
+      this.analyticsService.trackEvent('actor_share', 'actor_interaction', this.person.name, this.person.id);
+      
       this.shareService.sharePerson(personForSharing);
     }
   }
@@ -165,5 +182,20 @@ export class ActorDetailsComponent implements OnInit, OnDestroy {
 
   trackByMovieId(index: number, movie: Movie): number {
     return movie.id;
+  }
+
+  getPersonForButtons(): Person | undefined {
+    if (!this.person) return undefined;
+    
+    return {
+      id: this.person.id,
+      name: this.person.name,
+      profile_path: this.person.profile_path,
+      adult: this.person.adult,
+      popularity: this.person.popularity,
+      known_for_department: this.person.known_for_department,
+      known_for: [], // Empty array since we don't have this data
+      gender: this.person.gender
+    };
   }
 }

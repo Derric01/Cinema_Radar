@@ -20,6 +20,10 @@
         <mat-icon>search</mat-icon>
         Discover
       </a>
+      <a mat-button routerLink="/watchlist" routerLinkActive="active">
+        <mat-icon>bookmark</mat-icon>
+        Watchlist
+      </a>
     </nav>
 
     <!-- Search Bar -->
@@ -72,6 +76,10 @@
     <a mat-menu-item routerLink="/search">
       <mat-icon>search</mat-icon>
       <span>Discover</span>
+    </a>
+    <a mat-menu-item routerLink="/watchlist">
+      <mat-icon>bookmark</mat-icon>
+      <span>Watchlist</span>
     </a>
     <button mat-menu-item (click)="navigateToFavorites()">
       <mat-icon [matBadge]="favoritesCount > 0 ? favoritesCount : null" aria-hidden="false">favorite</mat-icon>

@@ -14,6 +14,7 @@ import { ShareService } from '../../../services/share.service';
 import { CardGeneratorService } from '../../../services/card-generator.service';
 import { NotificationService } from '../../../services/notification.service';
 import { FavoritesButtonComponent } from '../favorites-button/favorites-button.component';
+import { WatchlistButtonComponent } from '../watchlist-button/watchlist-button.component';
 
 @Component({
   selector: 'app-movie-card',
@@ -25,7 +26,8 @@ import { FavoritesButtonComponent } from '../favorites-button/favorites-button.c
     MatTooltipModule,
     MatMenuModule,
     RouterModule,
-    FavoritesButtonComponent
+    FavoritesButtonComponent,
+    WatchlistButtonComponent
   ],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss'
@@ -91,5 +93,10 @@ export class MovieCardComponent {
 
   onImageLoad(event: any): void {
     event.target.classList.add('loaded');
+  }
+
+  onWatchlistToggled(): void {
+    // Optional: Handle any additional logic when watchlist is toggled
+    // For example, you might want to refresh data or show a notification
   }
 }

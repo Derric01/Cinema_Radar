@@ -2,14 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>CinemaRadar</title>
+  <title>CinemaRadar - Discover Movies & Actors</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Discover trending movies, search actors, and explore cinema with CinemaRadar. A modern movie discovery app with dark/light themes, favorites, and more.">
+  <meta name="keywords" content="movies, cinema, actors, film, entertainment, movie search, trending movies, movie database">
+  <meta name="author" content="CinemaRadar">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="CinemaRadar - Discover Movies &amp; Actors">
+  <meta property="og:description" content="Discover trending movies, search actors, and explore cinema with CinemaRadar. A modern movie discovery app with dark/light themes, favorites, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-domain.com">
+  <meta property="og:image" content="https://your-domain.com/assets/og-image.jpg">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CinemaRadar - Discover Movies &amp; Actors">
+  <meta name="twitter:description" content="Discover trending movies, search actors, and explore cinema with CinemaRadar.">
+  <meta name="twitter:image" content="https://your-domain.com/assets/og-image.jpg">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#dc2626">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+  
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://api.themoviedb.org">
+  <link rel="preconnect" href="https://image.tmdb.org">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="manifest" href="manifest.webmanifest">
 </head>
 <body class="mat-typography">
   <app-root></app-root>
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 </html>

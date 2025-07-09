@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { 
   Movie, 
@@ -21,10 +22,27 @@ import { SearchResponse, MultiSearchResult } from '../models/search.model';
   providedIn: 'root'
 })
 export class TmdbService {
+  private cache = new Map<string, any>();
+  private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
   private readonly baseUrl = environment.tmdbBaseUrl;
   private readonly apiKey = environment.tmdbApiKey;
   
   constructor(private http: HttpClient) {}
+
+  private getCachedData<T>(key: string): T | null {
+    const cached = this.cache.get(key);
+    if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
+      return cached.data;
+    }
+    return null;
+  }
+
+  private setCachedData(key: string, data: any): void {
+    this.cache.set(key, {
+      data,
+      timestamp: Date.now()
+    });
+  }
 
   // Movie endpoints
   getTopRatedMovies(page: number = 1): Observable<MovieResponse> {
@@ -90,7 +108,18 @@ export class TmdbService {
       .set('api_key', this.apiKey)
       .set('page', page.toString());
     
-    return this.http.get<MovieResponse>(`${this.baseUrl}/trending/movie/week`, { params });
+    const cacheKey = 'trending_movies';
+    const cached = this.getCachedData<any>(cacheKey);
+    
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http.get<MovieResponse>(`${this.baseUrl}/trending/movie/week`, { params })
+      .pipe(
+        tap(data => this.setCachedData(cacheKey, data)),
+        catchError(this.handleError<any>('getTrendingMovies', { results: [] }))
+      );
   }
 
   // Person endpoints
@@ -200,5 +229,12 @@ export class TmdbService {
     };
 
     return genreIds.map(id => genreMap[id] || 'Unknown').filter(Boolean);
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 }

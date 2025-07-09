@@ -8,12 +8,15 @@ A modern, responsive movie discovery application built with Angular 17+ and powe
 - **Actor Profiles**: Detailed actor information and filmography
 - **Advanced Search**: Search movies and actors with filters
 - **Theme Support**: Beautiful dark/light mode toggle
-- **Favorites**: Save and manage your favorite movies
+- **Favorites**: Save and manage your favorite movies and actors
+- **Watchlist**: Track movies you want to watch with different statuses
 - **Share & Download**: Share movies and download custom cards
+- **Lazy Loading**: Optimized image loading for better performance
+- **Analytics**: Track user interactions and performance metrics
 - **Responsive Design**: Mobile-first, fully responsive layout
 - **Accessibility**: WCAG compliant with proper ARIA labels
-- **SSR/SSG**: Server-side rendering and static site generation
-- **Performance**: Optimized for speed and SEO
+- **PWA Support**: Service worker and offline functionality
+- **Performance**: Optimized for speed and SEO with caching
 
 ## 🛠️ Tech Stack
 
