@@ -1,0 +1,62 @@
+<footer class="app-footer">
+  <div class="footer-content">
+    <!-- Main Footer Section -->
+    <div class="footer-main">
+      <div class="footer-brand">
+        <h3>
+          <mat-icon class="brand-icon">movie</mat-icon>
+          CinemaRadar
+        </h3>
+        <p class="brand-tagline">Discover, explore, and share the world of cinema</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="link-group">
+          <h4>Explore</h4>
+          <a routerLink="/home">Home</a>
+          <a routerLink="/search">Search</a>
+          <a href="#" (click)="openTMDB()">TMDB</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Features</h4>
+          <a href="#favorites">Favorites</a>
+          <a href="#sharing">Sharing</a>
+          <a href="#cards">Movie Cards</a>
+        </div>
+
+        <div class="link-group">
+          <h4>Connect</h4>
+          <button mat-icon-button (click)="shareApp()" class="share-btn">
+            <mat-icon>share</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openGitHub()" class="github-btn">
+            <mat-icon>code</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-credits">
+        <p>&copy; {{ currentYear }} CinemaRadar. Built with Angular & Material Design.</p>
+        <p class="tmdb-credit">
+          This product uses the TMDB API but is not endorsed or certified by TMDB.
+          <button mat-button (click)="openTMDB()" class="tmdb-link">
+            <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" 
+                 alt="TMDB" class="tmdb-logo">
+          </button>
+        </p>
+      </div>
+
+      <div class="footer-tech">
+        <span class="tech-badge">Angular 17+</span>
+        <span class="tech-badge">Material Design</span>
+        <span class="tech-badge">TMDB API</span>
+      </div>
+    </div>
+  </div>
+</footer>

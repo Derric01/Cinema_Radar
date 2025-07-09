@@ -1,0 +1,210 @@
+.app-footer {
+  background: var(--mdc-theme-surface);
+  border-top: 1px solid var(--mdc-theme-outline-variant);
+  margin-top: auto;
+  padding: 2rem 0 1rem;
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  .footer-brand {
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--mdc-theme-primary);
+
+      .brand-icon {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .brand-tagline {
+      margin: 0;
+      color: var(--mdc-theme-on-surface-variant);
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .link-group {
+      h4 {
+        margin: 0 0 1rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--mdc-theme-on-surface);
+      }
+
+      a {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--mdc-theme-on-surface-variant);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: var(--mdc-theme-primary);
+          transform: translateX(4px);
+        }
+      }
+
+      .share-btn,
+      .github-btn {
+        margin-right: 0.5rem;
+        color: var(--mdc-theme-on-surface-variant);
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: var(--mdc-theme-primary);
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  mat-divider {
+    margin: 1.5rem 0;
+    border-color: var(--mdc-theme-outline-variant);
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .footer-credits {
+      flex: 1;
+
+      p {
+        margin: 0 0 0.25rem 0;
+        font-size: 0.75rem;
+        color: var(--mdc-theme-on-surface-variant);
+        line-height: 1.4;
+      }
+
+      .tmdb-credit {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+          justify-content: center;
+        }
+
+        .tmdb-link {
+          min-width: auto;
+          padding: 0.25rem;
+          height: auto;
+
+          .tmdb-logo {
+            height: 20px;
+            width: auto;
+            border-radius: 2px;
+          }
+        }
+      }
+    }
+
+    .footer-tech {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      @media (max-width: 768px) {
+        justify-content: center;
+      }
+
+      .tech-badge {
+        background: var(--mdc-theme-primary-container);
+        color: var(--mdc-theme-on-primary-container);
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.625rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
+// Dark theme adjustments
+:host-context(.dark-theme) {
+  .app-footer {
+    background: var(--mdc-theme-surface);
+    border-top-color: rgba(255, 255, 255, 0.12);
+
+    mat-divider {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+}
+
+// Animations
+.footer-links .link-group a,
+.footer-links .link-group button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-links .link-group a:hover {
+  transform: translateX(4px);
+}
+
+.footer-links .link-group button:hover {
+  transform: scale(1.1);
+}
+
+// Micro-interactions
+.tech-badge {
+  transition: all 0.2s ease;
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}

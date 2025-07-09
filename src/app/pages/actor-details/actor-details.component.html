@@ -1,0 +1,64 @@
+<div class="actor-details-container" *ngIf="person">
+  <<div class="loading-container" *ngIf="loadingService.isLoadingKey('actor-details')">
+  <mat-spinner></mat-spinner>
+  <p>Loading actor details...</p>
+</div>Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="profile-image-container">
+        <img [src]="getProfileUrl()" [alt]="person.name + ' profile photo'" [title]="person.name" class="profile-image">
+      </div>
+      
+      <div class="actor-info">
+        <h1 class="actor-name">{{ person.name }}</h1>
+        
+        <div class="actor-meta">
+          <div class="meta-item">
+            <mat-icon>cake</mat-icon>
+            <span>{{ getAge() }} years old</span>
+          </div>
+          
+          <div class="meta-item" *ngIf="person.place_of_birth">
+            <mat-icon>place</mat-icon>
+            <span>{{ getBirthPlace() }}</span>
+          </div>
+          
+          <div class="meta-item">
+            <mat-icon>work</mat-icon>
+            <span>{{ person.known_for_department }}</span>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" (click)="shareActor()">
+            <mat-icon>share</mat-icon>
+            Share
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biography Section -->
+  <div class="biography-section" *ngIf="person.biography">
+    <h2>Biography</h2>
+    <p class="biography-text">{{ person.biography }}</p>
+  </div>
+
+  <!-- Known For Section -->
+  <div class="known-for-section" *ngIf="knownForMovies.length > 0">
+    <h2>Known For</h2>
+    <div class="movies-grid">
+      <div *ngFor="let movie of knownForMovies" class="movie-item" [routerLink]="['/movie', movie.id]">
+        <img [src]="tmdbService.getImageUrl(movie.poster_path, 'w300')" [alt]="movie.title + ' poster'" [title]="movie.title" class="movie-poster">
+        <h3>{{ movie.title }}</h3>
+        <p>{{ movie.release_date | date: 'yyyy' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="loadingService.isLoadingKey('actor-details')">
+  <mat-spinner></mat-spinner>
+  <p>Loading actor details...</p>
+</div>

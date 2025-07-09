@@ -1,0 +1,9 @@
+<button 
+  mat-icon-button
+  [class]="'favorites-btn size-' + size"
+  [class.is-favorite]="isFavorite"
+  [disabled]="disabled"
+  [matTooltip]="tooltipText"
+  (click)="onClick()">
+  <mat-icon [class.heart-animation]="isFavorite">{{ iconName }}</mat-icon>
+</button>

@@ -1,0 +1,86 @@
+<mat-toolbar class="header">
+  <div class="toolbar">
+    <!-- Logo and Brand -->
+    <div class="brand-section">
+      <button mat-icon-button routerLink="/" class="logo-button">
+        <mat-icon class="cinema-icon">movie</mat-icon>
+      </button>
+      <h1 class="brand-title" routerLink="/">
+        <span class="cinema">Cinema</span><span class="radar">Radar</span>
+      </h1>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="nav-links" *ngIf="!isMobile">
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>home</mat-icon>
+        Home
+      </a>
+      <a mat-button routerLink="/search" routerLinkActive="active">
+        <mat-icon>search</mat-icon>
+        Discover
+      </a>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-section">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search movies, actors...</mat-label>
+        <input 
+          matInput 
+          [formControl]="searchControl"
+          (keydown.enter)="onSearchSubmit()"
+          placeholder="What are you looking for?">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <!-- Favorites -->
+      <button 
+        mat-icon-button 
+        (click)="navigateToFavorites()"
+        [matBadge]="favoritesCount > 0 ? favoritesCount : null"
+        matBadgeColor="accent"
+        matTooltip="Favorites"
+        aria-hidden="false">
+        <mat-icon>favorite</mat-icon>
+      </button>
+
+      <!-- Theme Toggle -->
+      <button 
+        mat-icon-button 
+        (click)="toggleTheme()"
+        [matTooltip]="isDarkTheme ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      <!-- Menu for mobile -->
+      <button mat-icon-button [matMenuTriggerFor]="mobileMenu" *ngIf="isMobile">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <mat-menu #mobileMenu="matMenu" class="mobile-menu">
+    <a mat-menu-item routerLink="/">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </a>
+    <a mat-menu-item routerLink="/search">
+      <mat-icon>search</mat-icon>
+      <span>Discover</span>
+    </a>
+    <button mat-menu-item (click)="navigateToFavorites()">
+      <mat-icon [matBadge]="favoritesCount > 0 ? favoritesCount : null" aria-hidden="false">favorite</mat-icon>
+      <span>Favorites ({{ favoritesCount }})</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="toggleTheme()">
+      <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      <span>{{ isDarkTheme ? 'Light Mode' : 'Dark Mode' }}</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

@@ -1,0 +1,60 @@
+<div class="skeleton-container" [ngSwitch]="type">
+  
+  <!-- Card Skeleton -->
+  <div *ngSwitchCase="'card'" class="skeleton-grid">
+    <div *ngFor="let item of skeletonArray; trackBy: trackByIndex" class="skeleton-card">
+      <div class="skeleton-poster skeleton-element"></div>
+      <div class="skeleton-content">
+        <div class="skeleton-title skeleton-element"></div>
+        <div class="skeleton-meta skeleton-element"></div>
+        <div class="skeleton-text skeleton-element"></div>
+        <div class="skeleton-actions">
+          <div class="skeleton-button skeleton-element"></div>
+          <div class="skeleton-button skeleton-element"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- List Skeleton -->
+  <div *ngSwitchCase="'list'" class="skeleton-list">
+    <div *ngFor="let item of skeletonArray; trackBy: trackByIndex" class="skeleton-list-item">
+      <div class="skeleton-avatar skeleton-element"></div>
+      <div class="skeleton-list-content">
+        <div class="skeleton-list-title skeleton-element"></div>
+        <div class="skeleton-list-subtitle skeleton-element"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Text Skeleton -->
+  <div *ngSwitchCase="'text'" class="skeleton-text-block">
+    <div *ngFor="let item of skeletonArray; trackBy: trackByIndex" 
+         class="skeleton-text-line skeleton-element"
+         [style.width]="item === skeletonArray.length - 1 ? '60%' : '100%'">
+    </div>
+  </div>
+
+  <!-- Avatar Skeleton -->
+  <div *ngSwitchCase="'avatar'" class="skeleton-avatar-grid">
+    <div *ngFor="let item of skeletonArray; trackBy: trackByIndex" class="skeleton-avatar-item">
+      <div class="skeleton-avatar skeleton-element"></div>
+      <div class="skeleton-name skeleton-element"></div>
+    </div>
+  </div>
+
+  <!-- Hero Skeleton -->
+  <div *ngSwitchCase="'hero'" class="skeleton-hero">
+    <div class="skeleton-hero-bg skeleton-element"></div>
+    <div class="skeleton-hero-content">
+      <div class="skeleton-hero-title skeleton-element"></div>
+      <div class="skeleton-hero-subtitle skeleton-element"></div>
+      <div class="skeleton-hero-text skeleton-element"></div>
+      <div class="skeleton-hero-actions">
+        <div class="skeleton-hero-button skeleton-element"></div>
+        <div class="skeleton-hero-button skeleton-element"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,132 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.global-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  height: 4px;
+  
+  .mat-mdc-progress-bar-buffer {
+    background-color: var(--accent-color) !important;
+  }
+  
+  .mat-mdc-progress-bar-fill::after {
+    background-color: var(--accent-light-color) !important;
+  }
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 72px - 60px); // Subtract header and footer height
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+// Enhanced cinema theming
+:host {
+  --primary-gradient: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark-color) 100%);
+  --cinema-gradient: linear-gradient(135deg, var(--bg-color) 0%, var(--surface-color) 50%, var(--surface-variant-color) 100%);
+  --gold-gradient: linear-gradient(135deg, var(--cinema-gold) 0%, var(--cinema-gold-light) 100%);
+  --red-gradient: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark-color) 100%);
+  
+  // Enhanced smooth transitions
+  * {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  // Enhanced focus styles
+  button:focus,
+  a:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+  }
+  
+  // Enhanced hover effects
+  button:hover,
+  a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+  }
+  
+  // Enhanced active states
+  button:active,
+  a:active {
+    transform: translateY(0);
+  }
+}
+
+// Light theme specific enhancements
+.light-theme {
+  .app-container {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+  
+  .main-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  }
+}
+
+// Dark theme specific enhancements
+.dark-theme {
+  .app-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+  
+  .main-content {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+}
+
+// Enhanced responsiveness
+@media (max-width: 768px) {
+  .main-content {
+    min-height: calc(100vh - 64px - 56px); // Adjust for mobile header/footer
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    min-height: calc(100vh - 56px - 48px); // Further adjust for smaller screens
+  }
+}
+
+// Enhanced accessibility
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .app-container {
+    border: 2px solid var(--text-color);
+  }
+}
+
+// Print optimization
+@media print {
+  .global-loading-bar {
+    display: none !important;
+  }
+  
+  .app-container {
+    background: white !important;
+    color: black !important;
+  }
+}

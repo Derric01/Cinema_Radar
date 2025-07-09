@@ -1,0 +1,178 @@
+.favorites-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  mat-icon {
+    transition: all 0.3s ease;
+    color: var(--mdc-theme-on-surface-variant);
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--mdc-theme-error-container);
+    
+    mat-icon {
+      color: var(--mdc-theme-error);
+      transform: scale(1.1);
+    }
+  }
+
+  &.is-favorite {
+    mat-icon {
+      color: var(--mdc-theme-error);
+      
+      &.heart-animation {
+        animation: heartBeat 0.6s ease-in-out;
+      }
+    }
+
+    &:hover mat-icon {
+      color: var(--mdc-theme-on-surface-variant);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Size variants
+  &.size-small {
+    width: 32px;
+    height: 32px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &.size-medium {
+    width: 40px;
+    height: 40px;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &.size-large {
+    width: 48px;
+    height: 48px;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  // Click ripple effect
+  &:not(:disabled):active {
+    transform: scale(0.95);
+  }
+
+  // Focus styles for accessibility
+  &:focus-visible {
+    outline: 2px solid var(--mdc-theme-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Heart beat animation
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.3);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.2);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+// Pulse effect when hovering over favorite
+.favorites-btn.is-favorite:hover mat-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Dark theme adjustments
+:host-context(.dark-theme) {
+  .favorites-btn {
+    &:hover:not(:disabled) {
+      background: rgba(244, 67, 54, 0.1);
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .favorites-btn {
+    border: 1px solid currentColor;
+
+    &.is-favorite mat-icon {
+      color: #d32f2f;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .favorites-btn,
+  .favorites-btn mat-icon {
+    transition: none;
+  }
+
+  .heart-animation {
+    animation: none !important;
+  }
+
+  .favorites-btn.is-favorite:hover mat-icon {
+    animation: none;
+  }
+}
+
+// Touch devices - larger hit area
+@media (hover: none) {
+  .favorites-btn {
+    &.size-small {
+      width: 44px;
+      height: 44px;
+    }
+
+    &.size-medium {
+      width: 48px;
+      height: 48px;
+    }
+
+    &.size-large {
+      width: 56px;
+      height: 56px;
+    }
+  }
+}

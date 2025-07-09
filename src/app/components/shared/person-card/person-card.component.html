@@ -1,0 +1,88 @@
+<mat-card class="person-card" [class.compact]="compact">
+  <!-- Profile Image Container -->
+  <div class="profile-container" [routerLink]="['/actor', person.id]">
+    <img 
+      [src]="profileUrl" 
+      [alt]="person.name + ' profile'"
+      [title]="person.name"
+      class="profile-image"
+      (error)="onImageError($event)"
+      (load)="onImageLoad($event)"
+      loading="lazy">
+    
+    <!-- Popularity Badge -->
+    <div class="popularity-badge" *ngIf="popularityScore > 0">
+      <mat-icon>trending_up</mat-icon>
+      <span>{{ popularityScore }}</span>
+    </div>
+
+    <!-- Hover Overlay -->
+    <div class="hover-overlay">
+      <button mat-fab color="primary" [routerLink]="['/actor', person.id]" class="view-btn">
+        <mat-icon>person</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Card Content -->
+  <mat-card-content class="card-content">
+    <div class="person-info">
+      <h3 class="person-name" [title]="person.name" [routerLink]="['/actor', person.id]">
+        {{ person.name }}
+      </h3>
+      
+      <div class="person-meta" *ngIf="!compact">
+        <span class="department">{{ knownFor }}</span>
+      </div>
+
+      <!-- Known For Movies -->
+      <div class="known-for" *ngIf="!compact && person.known_for && person.known_for.length > 0">
+        <span class="known-for-label">Known for:</span>
+        <div class="known-for-movies">
+          <span *ngFor="let movie of person.known_for.slice(0, 3); let last = last" 
+                class="movie-title">
+            {{ movie.title || movie.name }}{{ !last ? ', ' : '' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="card-actions" *ngIf="showActions">
+      <!-- Favorites Button -->
+      <app-favorites-button 
+        [isFavorite]="isFavorite"
+        (favoriteToggled)="toggleFavorite()"
+        [disabled]="false">
+      </app-favorites-button>
+
+      <!-- More Actions Menu -->
+      <button mat-icon-button [matMenuTriggerFor]="actionMenu" class="more-actions-btn">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #actionMenu="matMenu">
+        <button mat-menu-item (click)="sharePerson()">
+          <mat-icon>share</mat-icon>
+          <span>Share Actor</span>
+        </button>
+        
+        <button mat-menu-item (click)="downloadCard()" [disabled]="isGeneratingCard">
+          <mat-icon>download</mat-icon>
+          <span>{{ isGeneratingCard ? 'Generating...' : 'Download Card' }}</span>
+        </button>
+        
+        <button mat-menu-item [routerLink]="['/actor', person.id]">
+          <mat-icon>info</mat-icon>
+          <span>View Details</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-card-content>
+
+  <!-- Loading Overlay for Card Generation -->
+  <div class="loading-overlay" *ngIf="isGeneratingCard">
+    <mat-icon class="spinning">refresh</mat-icon>
+    <span>Generating card...</span>
+  </div>
+</mat-card>

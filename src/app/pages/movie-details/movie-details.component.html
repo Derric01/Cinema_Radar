@@ -1,0 +1,148 @@
+<div class="movie-details-page" *ngIf="!isLoading && movie">
+  <!-- Hero Section -->
+  <div class="hero-section" [style.background-image]="'url(' + getBackdropUrl() + ')'">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <div class="movie-poster">
+          <img [src]="getPosterUrl()" [alt]="movie.title" [title]="movie.title" class="poster-image">
+          <div class="poster-actions">
+            <app-favorites-button [item]="movie" type="movie"></app-favorites-button>
+            <button mat-fab color="primary" (click)="shareMovie()" class="share-btn">
+              <mat-icon>share</mat-icon>
+            </button>
+          </div>
+        </div>
+        
+        <div class="movie-info">
+          <div class="title-section">
+            <h1 class="movie-title">{{ movie.title }}</h1>
+            <div class="movie-meta">
+              <span class="rating">
+                <mat-icon>star</mat-icon>
+                {{ movie.vote_average | number:'1.1-1' }}
+              </span>
+              <span class="year">{{ getYear() }}</span>
+              <span class="runtime">{{ getRuntime() }}</span>
+              <span class="certification">{{ getCertification() }}</span>
+            </div>
+          </div>
+          
+          <div class="tagline" *ngIf="movie.tagline">
+            <em>"{{ movie.tagline }}"</em>
+          </div>
+          
+          <div class="overview">
+            <p>{{ movie.overview }}</p>
+          </div>
+          
+          <div class="genres">
+            <mat-chip-set>
+              <mat-chip *ngFor="let genre of movie.genres">{{ genre.name }}</mat-chip>
+            </mat-chip-set>
+          </div>
+          
+          <div class="crew-info">
+            <div class="crew-member" *ngIf="director">
+              <strong>Director:</strong> {{ director.name }}
+            </div>
+            <div class="crew-member" *ngIf="writers.length > 0">
+              <strong>Writers:</strong> {{ getWritersNames() }}
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button mat-raised-button color="primary" (click)="downloadMovieCard()" class="download-btn">
+              <mat-icon>download</mat-icon>
+              Download Card
+            </button>
+            <button mat-stroked-button (click)="shareMovie()" class="share-btn-alt">
+              <mat-icon>share</mat-icon>
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Cast Section -->
+  <div class="content-section" *ngIf="mainCast.length > 0">
+    <div class="section-header">
+      <h2>Cast</h2>
+    </div>
+    <div class="cast-grid">
+      <div class="cast-member" *ngFor="let member of mainCast">
+        <div class="member-photo">
+          <img [src]="getProfileUrl(member.profile_path)" [alt]="member.name" [title]="member.name" class="member-image">
+        </div>
+        <div class="member-info">
+          <h4 class="member-name">{{ member.name }}</h4>
+          <p class="character-name">{{ member.character }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Details Section -->
+  <div class="content-section">
+    <div class="section-header">
+      <h2>Details</h2>
+    </div>
+    <div class="details-grid">
+      <div class="detail-item">
+        <strong>Release Date:</strong>
+        <span>{{ getReleaseDate() }}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Budget:</strong>
+        <span>{{ getBudget() }}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Revenue:</strong>
+        <span>{{ getRevenue() }}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Production Companies:</strong>
+        <span>{{ productionCompanies }}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Original Language:</strong>
+        <span>{{ getOriginalLanguage() }}</span>
+      </div>
+      <div class="detail-item">
+        <strong>Genres:</strong>
+        <span>{{ getGenres() }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Similar Movies Section -->
+  <div class="content-section" *ngIf="similarMovies.length > 0">
+    <div class="section-header">
+      <h2>Similar Movies</h2>
+    </div>
+    <div class="similar-movies-grid">
+      <app-movie-card 
+        *ngFor="let movie of similarMovies.slice(0, 8)" 
+        [movie]="movie">
+      </app-movie-card>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner diameter="60"></mat-spinner>
+  <p>Loading movie details...</p>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="!isLoading && !movie">
+  <mat-icon class="error-icon">error_outline</mat-icon>
+  <h2>Movie Not Found</h2>
+  <p>The movie you're looking for doesn't exist or has been removed.</p>
+  <button mat-raised-button color="primary" routerLink="/home">
+    <mat-icon>home</mat-icon>
+    Go Home
+  </button>
+</div>

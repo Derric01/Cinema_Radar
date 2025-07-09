@@ -1,0 +1,59 @@
+<div class="share-dialog">
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon>share</mat-icon>
+    Share {{ data.type === 'app' ? 'CinemaRadar' : data.title }}
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <!-- Preview Card -->
+    <div class="share-preview">
+      <div class="preview-content">
+        <h3 class="preview-title">{{ data.title }}</h3>
+        <p class="preview-description" *ngIf="data.description">{{ data.description }}</p>
+        <p class="preview-url">{{ data.url }}</p>
+      </div>
+    </div>
+
+    <!-- Native Share (if supported) -->
+    <div class="native-share" *ngIf="supportsNativeShare">
+      <button mat-raised-button color="primary" (click)="shareNative()" class="native-share-btn">
+        <mat-icon>share</mat-icon>
+        Share via System
+      </button>
+      <mat-divider></mat-divider>
+    </div>
+
+    <!-- Share Options Grid -->
+    <div class="share-options">
+      <button 
+        *ngFor="let option of shareOptions"
+        mat-stroked-button
+        [color]="option.color"
+        (click)="option.action()"
+        class="share-option"
+        [matTooltip]="'Share via ' + option.name">
+        <mat-icon>{{ option.icon }}</mat-icon>
+        <span>{{ option.name }}</span>
+      </button>
+    </div>
+
+    <!-- URL Input for Copy -->
+    <div class="url-section">
+      <mat-form-field appearance="outline" class="url-field">
+        <mat-label>Share URL</mat-label>
+        <input matInput [value]="data.url" readonly>
+        <button matSuffix mat-icon-button (click)="copyToClipboard()" matTooltip="Copy link">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="close()" class="close-btn">Close</button>
+    <button mat-raised-button color="primary" (click)="copyToClipboard()" class="copy-btn">
+      <mat-icon>content_copy</mat-icon>
+      Copy Link
+    </button>
+  </mat-dialog-actions>
+</div>

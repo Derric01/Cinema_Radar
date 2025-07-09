@@ -1,1 +1,257 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Import Angular Material theming
+@use '@angular/material' as mat;
+
+// Global CSS Reset and Base Styles
+* {
+  box-sizing: border-box;
+}
+
+html, body { 
+  height: 100%; 
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+// Theme Color Variables
+:root {
+  --cinema-red: #dc2626;
+  --cinema-red-light: #ef4444;
+  --cinema-red-dark: #b91c1c;
+  --cinema-gold: #f59e0b;
+  --cinema-gold-light: #fbbf24;
+  --cinema-gold-dark: #d97706;
+  
+  // Light theme colors
+  --light-bg: #ffffff;
+  --light-surface: #f8fafc;
+  --light-surface-variant: #f1f5f9;
+  --light-text: #1e293b;
+  --light-text-secondary: #64748b;
+  --light-text-muted: #94a3b8;
+  --light-border: #e2e8f0;
+  --light-shadow: rgba(0, 0, 0, 0.1);
+  
+  // Dark theme colors
+  --dark-bg: #0f172a;
+  --dark-surface: #1e293b;
+  --dark-surface-variant: #334155;
+  --dark-text: #f8fafc;
+  --dark-text-secondary: #cbd5e1;
+  --dark-text-muted: #94a3b8;
+  --dark-border: #374151;
+  --dark-shadow: rgba(0, 0, 0, 0.3);
+}
+
+// Light Theme
+.light-theme {
+  --bg-color: var(--light-bg);
+  --surface-color: var(--light-surface);
+  --surface-variant-color: var(--light-surface-variant);
+  --text-color: var(--light-text);
+  --text-secondary-color: var(--light-text-secondary);
+  --text-muted-color: var(--light-text-muted);
+  --border-color: var(--light-border);
+  --shadow-color: var(--light-shadow);
+  --accent-color: var(--cinema-red);
+  --accent-light-color: var(--cinema-red-light);
+  --accent-dark-color: var(--cinema-red-dark);
+  
+  color-scheme: light;
+}
+
+// Dark Theme
+.dark-theme {
+  --bg-color: var(--dark-bg);
+  --surface-color: var(--dark-surface);
+  --surface-variant-color: var(--dark-surface-variant);
+  --text-color: var(--dark-text);
+  --text-secondary-color: var(--dark-text-secondary);
+  --text-muted-color: var(--dark-text-muted);
+  --border-color: var(--dark-border);
+  --shadow-color: var(--dark-shadow);
+  --accent-color: var(--cinema-red);
+  --accent-light-color: var(--cinema-red-light);
+  --accent-dark-color: var(--cinema-red-dark);
+  
+  color-scheme: dark;
+}
+
+// Global Theme Application
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Material Theme Overrides
+.mat-mdc-card {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.mat-mdc-button {
+  color: var(--text-color) !important;
+  
+  &.mat-primary {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+  }
+}
+
+.mat-mdc-raised-button.mat-primary {
+  background-color: var(--accent-color) !important;
+  color: white !important;
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-form-field-input-control {
+    color: var(--text-color) !important;
+  }
+  
+  .mat-mdc-form-field-label {
+    color: var(--text-secondary-color) !important;
+  }
+  
+  .mat-mdc-form-field-outline {
+    color: var(--border-color) !important;
+  }
+}
+
+.mat-mdc-chip {
+  background-color: var(--surface-variant-color) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+  
+  &.mat-mdc-chip-selected {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+  }
+}
+
+// Ensure proper text visibility
+.mat-mdc-icon-button {
+  color: var(--text-color) !important;
+}
+
+.mat-mdc-menu-panel {
+  background-color: var(--surface-color) !important;
+  color: var(--text-color) !important;
+}
+
+.mat-mdc-menu-item {
+  color: var(--text-color) !important;
+  
+  &:hover {
+    background-color: var(--surface-variant-color) !important;
+  }
+}
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-light-color);
+}
+
+// Focus Styles
+*:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+// Selection Styles
+::selection {
+  background: var(--accent-color);
+  color: white;
+}
+
+// Utility Classes
+.text-accent {
+  color: var(--accent-color) !important;
+}
+
+.bg-accent {
+  background-color: var(--accent-color) !important;
+}
+
+.border-accent {
+  border-color: var(--accent-color) !important;
+}
+
+// Animation and Transitions
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+// Responsive Typography
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+// High Contrast Mode Support
+@media (prefers-contrast: high) {
+  :root {
+    --light-border: #000000;
+    --dark-border: #ffffff;
+  }
+}
+
+// Reduced Motion Support
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// Print Styles
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+}

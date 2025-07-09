@@ -1,0 +1,488 @@
+.movie-details-page {
+  min-height: 100vh;
+  background: var(--bg-color);
+  color: var(--text-color);
+
+  .hero-section {
+    position: relative;
+    min-height: 70vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+      display: flex;
+      align-items: center;
+      padding: 2rem;
+
+      .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 3rem;
+        align-items: start;
+        width: 100%;
+
+        .movie-poster {
+          position: relative;
+          min-width: 300px;
+
+          .poster-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+
+            &:hover {
+              transform: scale(1.02);
+            }
+          }
+
+          .poster-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .share-btn {
+              background: rgba(0, 0, 0, 0.7);
+              color: white;
+              width: 48px;
+              height: 48px;
+
+              &:hover {
+                background: var(--accent-color);
+              }
+            }
+          }
+        }
+
+        .movie-info {
+          color: white;
+          padding-top: 1rem;
+
+          .title-section {
+            margin-bottom: 1.5rem;
+
+            .movie-title {
+              font-size: clamp(2rem, 5vw, 3.5rem);
+              font-weight: 700;
+              margin: 0 0 1rem 0;
+              line-height: 1.1;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            }
+
+            .movie-meta {
+              display: flex;
+              align-items: center;
+              gap: 1.5rem;
+              flex-wrap: wrap;
+              font-size: 1.1rem;
+
+              .rating {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                color: #ffc107;
+                font-weight: 600;
+
+                mat-icon {
+                  font-size: 1.2rem;
+                }
+              }
+
+              .year, .runtime, .certification {
+                color: rgba(255, 255, 255, 0.9);
+                background: rgba(0, 0, 0, 0.5);
+                padding: 0.25rem 0.75rem;
+                border-radius: 6px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+              }
+            }
+          }
+
+          .tagline {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+          }
+
+          .overview {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+            color: rgba(255, 255, 255, 0.9);
+          }
+
+          .genres {
+            margin-bottom: 1.5rem;
+
+            mat-chip-set {
+              mat-chip {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                margin: 0.25rem 0.5rem 0.25rem 0;
+
+                &:hover {
+                  background: var(--primary-color);
+                  border-color: var(--primary-color);
+                }
+              }
+            }
+          }
+
+          .crew-info {
+            margin-bottom: 2rem;
+
+            .crew-member {
+              margin-bottom: 0.5rem;
+              font-size: 1rem;
+              color: rgba(255, 255, 255, 0.9);
+
+              strong {
+                color: white;
+                margin-right: 0.5rem;
+              }
+            }
+          }
+
+          .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+
+            .download-btn {
+              background: var(--primary-color);
+              color: white;
+              padding: 12px 24px;
+              font-weight: 600;
+
+              &:hover {
+                background: var(--primary-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+              }
+            }
+
+            .share-btn-alt {
+              border: 2px solid white;
+              color: white;
+              padding: 10px 24px;
+              font-weight: 600;
+
+              &:hover {
+                background: white;
+                color: var(--background-color);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .content-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+
+    .section-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--primary-color);
+
+      h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+    }
+
+    .cast-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1.5rem;
+
+      .cast-member {
+        text-align: center;
+        background: var(--surface-color);
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+          border-color: var(--primary-color);
+        }
+
+        .member-photo {
+          margin-bottom: 1rem;
+
+          .member-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--border-color);
+            transition: border-color 0.3s ease;
+          }
+        }
+
+        .member-info {
+          .member-name {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+          }
+
+          .character-name {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-style: italic;
+          }
+        }
+
+        &:hover .member-image {
+          border-color: var(--primary-color);
+        }
+      }
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+
+      .detail-item {
+        background: var(--surface-color);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: var(--primary-color);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        strong {
+          display: block;
+          margin-bottom: 0.5rem;
+          color: var(--primary-color);
+          font-weight: 600;
+          font-size: 0.9rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        span {
+          color: var(--text-primary);
+          font-size: 1rem;
+          line-height: 1.4;
+        }
+      }
+    }
+
+    .similar-movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    gap: 1.5rem;
+
+    p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+  }
+
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    text-align: center;
+    padding: 2rem;
+
+    .error-icon {
+      font-size: 4rem;
+      width: 4rem;
+      height: 4rem;
+      color: var(--error-color, #f44336);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      margin: 0 0 1rem 0;
+      color: var(--text-primary);
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 2rem 0;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 400px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .movie-details-page {
+    .hero-section {
+      .hero-overlay {
+        .hero-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 2rem;
+
+          .movie-poster {
+            justify-self: center;
+            min-width: auto;
+            max-width: 250px;
+          }
+        }
+      }
+    }
+
+    .content-section {
+      padding: 2rem 1rem;
+
+      .cast-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-details-page {
+    .hero-section {
+      min-height: 50vh;
+      padding: 2rem 0;
+
+      .hero-overlay {
+        padding: 1rem;
+
+        .hero-content {
+          gap: 1.5rem;
+
+          .movie-poster {
+            max-width: 200px;
+
+            .poster-actions {
+              top: 0.5rem;
+              right: 0.5rem;
+              gap: 0.25rem;
+
+              .share-btn {
+                width: 40px;
+                height: 40px;
+              }
+            }
+          }
+
+          .movie-info {
+            .movie-meta {
+              font-size: 0.9rem;
+              gap: 0.75rem;
+            }
+
+            .overview {
+              font-size: 1rem;
+            }
+
+            .action-buttons {
+              justify-content: center;
+            }
+          }
+        }
+      }
+    }
+
+    .content-section {
+      padding: 1.5rem 0.75rem;
+
+      .section-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .cast-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+
+        .cast-member {
+          padding: 0.75rem;
+
+          .member-image {
+            width: 60px;
+            height: 60px;
+          }
+
+          .member-name {
+            font-size: 0.8rem;
+          }
+
+          .character-name {
+            font-size: 0.7rem;
+          }
+        }
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+
+        .detail-item {
+          padding: 1rem;
+        }
+      }
+
+      .similar-movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+    }
+  }
+}

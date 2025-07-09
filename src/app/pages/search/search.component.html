@@ -1,0 +1,147 @@
+<div class="search-page">
+  <!-- Search Header -->
+  <div class="search-header">
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search movies and actors</mat-label>
+        <input 
+          matInput 
+          [(ngModel)]="searchQuery" 
+          (input)="onSearchInput()"
+          placeholder="Enter movie title or actor name..."
+          autocomplete="off">
+        <button 
+          mat-icon-button 
+          matSuffix 
+          *ngIf="searchQuery" 
+          (click)="clearSearch()"
+          aria-label="Clear search">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-icon matSuffix *ngIf="!searchQuery">search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Searching...</p>
+  </div>
+
+  <!-- No Query State -->
+  <div *ngIf="!searchQuery && !isLoading" class="empty-state">
+    <mat-icon class="empty-icon">search</mat-icon>
+    <h2>Discover Movies & Actors</h2>
+    <p>Start typing to search our vast collection of movies and discover talented actors.</p>
+    <div class="search-suggestions">
+      <h3>Popular searches:</h3>
+      <mat-chip-set>
+        <mat-chip (click)="searchQuery = 'Inception'; onSearchInput()">Inception</mat-chip>
+        <mat-chip (click)="searchQuery = 'Leonardo DiCaprio'; onSearchInput()">Leonardo DiCaprio</mat-chip>
+        <mat-chip (click)="searchQuery = 'Marvel'; onSearchInput()">Marvel</mat-chip>
+        <mat-chip (click)="searchQuery = 'The Dark Knight'; onSearchInput()">The Dark Knight</mat-chip>
+      </mat-chip-set>
+    </div>
+  </div>
+
+  <!-- No Results State -->
+  <div *ngIf="searchQuery && !isLoading && !hasResults" class="no-results">
+    <mat-icon class="no-results-icon">search_off</mat-icon>
+    <h2>No results found</h2>
+    <p>We couldn't find anything matching "{{ searchQuery }}"</p>
+    <p>Try different keywords or check your spelling.</p>
+  </div>
+
+  <!-- Results -->
+  <div *ngIf="searchQuery && !isLoading && hasResults" class="results-container">
+    <mat-tab-group [(selectedIndex)]="activeTab" class="results-tabs">
+      <!-- Movies Tab -->
+      <mat-tab [label]="'Movies (' + movies.length + ')'">
+        <div class="results-grid" *ngIf="hasMovies">
+          <div class="grid-header">
+            <h3>Movies</h3>
+            <span class="count">{{ movies.length }} results</span>
+          </div>
+          <div class="movies-grid">
+            <app-movie-card 
+              *ngFor="let movie of movies; trackBy: trackByMovieId" 
+              [movie]="movie">
+            </app-movie-card>
+          </div>
+        </div>
+        <div *ngIf="!hasMovies" class="no-tab-results">
+          <mat-icon>movie</mat-icon>
+          <p>No movies found for "{{ searchQuery }}"</p>
+        </div>
+      </mat-tab>
+
+      <!-- Actors Tab -->
+      <mat-tab [label]="'Actors (' + persons.length + ')'">
+        <div class="results-grid" *ngIf="hasPersons">
+          <div class="grid-header">
+            <h3>Actors</h3>
+            <span class="count">{{ persons.length }} results</span>
+          </div>
+          <div class="persons-grid">
+            <app-person-card 
+              *ngFor="let person of persons; trackBy: trackByPersonId" 
+              [person]="person">
+            </app-person-card>
+          </div>
+        </div>
+        <div *ngIf="!hasPersons" class="no-tab-results">
+          <mat-icon>person</mat-icon>
+          <p>No actors found for "{{ searchQuery }}"</p>
+        </div>
+      </mat-tab>
+
+      <!-- All Tab -->
+      <mat-tab [label]="'All (' + (movies.length + persons.length) + ')'">
+        <div class="mixed-results">
+          <!-- Movies Section -->
+          <div *ngIf="hasMovies" class="results-section">
+            <div class="section-header">
+              <h3>Movies</h3>
+              <span class="count">{{ movies.length }} results</span>
+            </div>
+            <div class="movies-grid">
+              <app-movie-card 
+                *ngFor="let movie of movies.slice(0, 6); trackBy: trackByMovieId" 
+                [movie]="movie">
+              </app-movie-card>
+            </div>
+            <button 
+              *ngIf="movies.length > 6" 
+              mat-stroked-button 
+              (click)="activeTab = 0"
+              class="view-all-btn">
+              View All {{ movies.length }} Movies
+            </button>
+          </div>
+
+          <!-- Actors Section -->
+          <div *ngIf="hasPersons" class="results-section">
+            <div class="section-header">
+              <h3>Actors</h3>
+              <span class="count">{{ persons.length }} results</span>
+            </div>
+            <div class="persons-grid">
+              <app-person-card 
+                *ngFor="let person of persons.slice(0, 6); trackBy: trackByPersonId" 
+                [person]="person">
+              </app-person-card>
+            </div>
+            <button 
+              *ngIf="persons.length > 6" 
+              mat-stroked-button 
+              (click)="activeTab = 1"
+              class="view-all-btn">
+              View All {{ persons.length }} Actors
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

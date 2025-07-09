@@ -1,0 +1,193 @@
+.actor-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+.hero-section {
+  background: var(--accent-color);
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 30px;
+  color: white;
+  box-shadow: 0 8px 32px var(--shadow-color);
+
+  .hero-content {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+
+    .profile-image-container {
+      flex-shrink: 0;
+
+      .profile-image {
+        width: 200px;
+        height: 300px;
+        border-radius: 8px;
+        object-fit: cover;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .actor-info {
+      flex: 1;
+
+      .actor-name {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .actor-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 30px;
+
+        .meta-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 1.1rem;
+
+          mat-icon {
+            color: rgba(255, 255, 255, 0.8);
+          }
+        }
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+
+        button {
+          padding: 12px 24px;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.biography-section {
+  background: var(--surface-color);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .biography-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+  }
+}
+
+.known-for-section {
+  h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+
+    .movie-item {
+      background: var(--surface-color);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .movie-poster {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+
+      h3 {
+        padding: 15px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin: 0;
+      }
+
+      p {
+        padding: 0 15px 15px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+
+  p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 20px;
+
+    .hero-content {
+      flex-direction: column;
+      text-align: center;
+
+      .profile-image-container {
+        .profile-image {
+          width: 150px;
+          height: 225px;
+        }
+      }
+
+      .actor-info {
+        .actor-name {
+          font-size: 2rem;
+        }
+
+        .actor-meta {
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+}

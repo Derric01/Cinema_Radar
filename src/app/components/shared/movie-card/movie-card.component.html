@@ -1,0 +1,82 @@
+<mat-card class="movie-card" [class.compact]="compact">
+  <!-- Poster Image Container -->
+  <div class="poster-container" [routerLink]="['/movie', movie.id]">
+    <img 
+      [src]="posterUrl" 
+      [alt]="movie.title + ' poster'"
+      [title]="movie.title"
+      class="poster-image"
+      (error)="onImageError($event)"
+      (load)="onImageLoad($event)"
+      loading="lazy">
+    
+    <!-- Rating Badge -->
+    <div class="rating-badge" *ngIf="rating > 0">
+      <mat-icon>star</mat-icon>
+      <span>{{ rating | number:'1.1-1' }}</span>
+    </div>
+
+    <!-- Hover Overlay -->
+    <div class="hover-overlay">
+      <button mat-fab color="primary" [routerLink]="['/movie', movie.id]" class="play-btn">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Card Content -->
+  <mat-card-content class="card-content">
+    <div class="movie-info">
+      <h3 class="movie-title" [title]="movie.title" [routerLink]="['/movie', movie.id]">
+        {{ movie.title }}
+      </h3>
+      
+      <div class="movie-meta" *ngIf="!compact">
+        <span class="year" *ngIf="year">{{ year }}</span>
+        <span class="genres" *ngIf="genres">{{ genres }}</span>
+      </div>
+
+      <p class="movie-overview" *ngIf="!compact && movie.overview">
+        {{ movie.overview }}
+      </p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="card-actions" *ngIf="showActions">
+      <!-- Favorites Button -->
+      <app-favorites-button 
+        [isFavorite]="isFavorite"
+        (favoriteToggled)="toggleFavorite()"
+        [disabled]="false">
+      </app-favorites-button>
+
+      <!-- More Actions Menu -->
+      <button mat-icon-button [matMenuTriggerFor]="actionMenu" class="more-actions-btn">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #actionMenu="matMenu">
+        <button mat-menu-item (click)="shareMovie()">
+          <mat-icon>share</mat-icon>
+          <span>Share Movie</span>
+        </button>
+        
+        <button mat-menu-item (click)="downloadCard()" [disabled]="isGeneratingCard">
+          <mat-icon>download</mat-icon>
+          <span>{{ isGeneratingCard ? 'Generating...' : 'Download Card' }}</span>
+        </button>
+        
+        <button mat-menu-item [routerLink]="['/movie', movie.id]">
+          <mat-icon>info</mat-icon>
+          <span>View Details</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-card-content>
+
+  <!-- Loading Overlay for Card Generation -->
+  <div class="loading-overlay" *ngIf="isGeneratingCard">
+    <mat-icon class="spinning">refresh</mat-icon>
+    <span>Generating card...</span>
+  </div>
+</mat-card>
