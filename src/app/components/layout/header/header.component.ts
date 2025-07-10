@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -12,8 +12,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatRippleModule } from '@angular/material/core';
 import { Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { ThemeService } from '../../../services/theme.service';
 import { FavoritesService } from '../../../services/favorites.service';
 
@@ -32,43 +36,74 @@ import { FavoritesService } from '../../../services/favorites.service';
     MatSlideToggleModule,
     MatBadgeModule,
     MatTooltipModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSidenavModule,
+    MatListModule,
+    MatRippleModule
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private themeService = inject(ThemeService);
+  private favoritesService = inject(FavoritesService);
+
   searchControl = new FormControl('');
   isDarkTheme = false;
   favoritesCount = 0;
   isMobile = false;
+  isSearchFocused = false;
+  
+  private destroy$ = new Subject<void>();
 
-  constructor(
-    private router: Router,
-    private themeService: ThemeService,
-    private favoritesService: FavoritesService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     // Subscribe to theme changes
-    this.themeService.currentTheme$.subscribe(theme => {
+    this.themeService.currentTheme$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(theme => {
       this.isDarkTheme = theme === 'dark';
     });
 
     // Subscribe to favorites count
-    this.favoritesService.favorites$.subscribe(favorites => {
+    this.favoritesService.favorites$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(favorites => {
       this.favoritesCount = favorites.length;
     });
 
     // Setup search with debounce
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
     ).subscribe(query => {
       if (query && query.trim()) {
         this.navigateToSearch(query.trim());
       }
     });
+
+    // Check if mobile
+    this.checkIsMobile();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', () => this.checkIsMobile());
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private checkIsMobile() {
+    if (typeof window !== 'undefined') {
+      this.isMobile = window.innerWidth <= 768;
+    }
   }
 
   navigateToSearch(query: string) {
@@ -82,12 +117,23 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  onSearchFocus() {
+    this.isSearchFocused = true;
+  }
+
+  onSearchBlur() {
+    this.isSearchFocused = false;
+  }
+
   toggleTheme() {
     this.themeService.toggleTheme();
   }
 
   navigateToFavorites() {
-    // This could navigate to a favorites page or open a dialog
-    console.log('Navigate to favorites');
+    this.router.navigate(['/favorites']);
+  }
+
+  navigateToHome() {
+    this.router.navigate(['/']);
   }
 }

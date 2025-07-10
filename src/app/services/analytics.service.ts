@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -9,12 +9,15 @@ declare let gtag: any;
   providedIn: 'root'
 })
 export class AnalyticsService {
+  private platformId = inject(PLATFORM_ID);
+  private router = inject(Router);
+
   private gtag?: any;
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.gtag = (window as any).gtag || function () { 
         ((window as any).gtag.q = (window as any).gtag.q || []).push(arguments); 

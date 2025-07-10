@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit, OnDestroy, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, OnDestroy, Renderer2, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
@@ -6,18 +6,21 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true
 })
 export class LazyLoadDirective implements OnInit, OnDestroy {
-  @Input() appLazyLoad: string = '';
-  @Input() placeholder: string = '/assets/images/placeholder.jpg';
-  @Input() errorImage: string = '/assets/images/error-image.jpg';
+  private el = inject<ElementRef<HTMLImageElement>>(ElementRef);
+  private renderer = inject(Renderer2);
+  private platformId = inject(PLATFORM_ID);
+
+  @Input() appLazyLoad = '';
+  @Input() placeholder = '/assets/images/placeholder.jpg';
+  @Input() errorImage = '/assets/images/error-image.jpg';
   
   private observer?: IntersectionObserver;
   private isLoaded = false;
 
-  constructor(
-    private el: ElementRef<HTMLImageElement>,
-    private renderer: Renderer2,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {

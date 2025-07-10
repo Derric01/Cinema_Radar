@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,6 +19,8 @@ import { Person } from '../../../models/person.model';
   styleUrl: './favorites-button.component.scss'
 })
 export class FavoritesButtonComponent implements OnInit {
+  private favoritesService = inject(FavoritesService);
+
   @Input() item?: Movie | Person;
   @Input() type?: 'movie' | 'person';
   @Input() isFavorite = false;
@@ -26,7 +28,10 @@ export class FavoritesButtonComponent implements OnInit {
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
   @Output() favoriteToggled = new EventEmitter<void>();
 
-  constructor(private favoritesService: FavoritesService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     if (this.item && this.type) {

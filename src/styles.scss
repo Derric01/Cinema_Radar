@@ -1,7 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+/* CinemaRadar - Material Design Enhanced Styles */
 
-// Import Angular Material theming
-@use '@angular/material' as mat;
+// Import Material Design theme
+@use './styles/material-theme.scss';
 
 // Global CSS Reset and Base Styles
 * {
@@ -17,7 +17,7 @@ html, body {
   scroll-behavior: smooth;
 }
 
-// Theme Color Variables
+// Enhanced Material Design Variables
 :root {
   --cinema-red: #dc2626;
   --cinema-red-light: #ef4444;
@@ -26,25 +26,48 @@ html, body {
   --cinema-gold-light: #fbbf24;
   --cinema-gold-dark: #d97706;
   
-  // Light theme colors
-  --light-bg: #ffffff;
-  --light-surface: #f8fafc;
-  --light-surface-variant: #f1f5f9;
-  --light-text: #1e293b;
-  --light-text-secondary: #64748b;
-  --light-text-muted: #94a3b8;
-  --light-border: #e2e8f0;
+  // Enhanced color system
+  --light-bg: #fafafa;
+  --light-surface: #ffffff;
+  --light-surface-variant: #f5f5f5;
+  --light-text: #212121;
+  --light-text-secondary: #757575;
+  --light-text-muted: #9e9e9e;
+  --light-border: #e0e0e0;
   --light-shadow: rgba(0, 0, 0, 0.1);
   
-  // Dark theme colors
-  --dark-bg: #0f172a;
-  --dark-surface: #1e293b;
-  --dark-surface-variant: #334155;
-  --dark-text: #f8fafc;
-  --dark-text-secondary: #cbd5e1;
-  --dark-text-muted: #94a3b8;
-  --dark-border: #374151;
-  --dark-shadow: rgba(0, 0, 0, 0.3);
+  --dark-bg: #121212;
+  --dark-surface: #1e1e1e;
+  --dark-surface-variant: #2d2d2d;
+  --dark-text: #ffffff;
+  --dark-text-secondary: #b3b3b3;
+  --dark-text-muted: #8a8a8a;
+  --dark-border: #373737;
+  --dark-shadow: rgba(0, 0, 0, 0.4);
+  
+  // Material Design spacing system
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-xxxl: 64px;
+  
+  // Material Design border radius
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-xxl: 24px;
+  --radius-round: 50%;
+  
+  // Material Design typography
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 }
 
 // Light Theme

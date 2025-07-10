@@ -1,6 +1,7 @@
+// Enhanced Material Design Movie Card
 .movie-card {
   position: relative;
-  border-radius: 12px;
+  border-radius: var(--radius-xl) !important;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: var(--surface-color);
@@ -9,10 +10,15 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  
+  // Enhanced Material Design elevation
+  &.elevation-2 {
+    box-shadow: 0 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+  }
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 16px 32px var(--shadow-color);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25) !important;
     border-color: var(--accent-color);
 
     .hover-overlay {
@@ -24,11 +30,16 @@
     .poster-image {
       transform: scale(1.05);
     }
+    
+    .overlay-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   &.compact {
     .card-content {
-      padding: 0.75rem;
+      padding: var(--space-md);
 
       .movie-title {
         font-size: 0.875rem;

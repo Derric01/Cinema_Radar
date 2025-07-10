@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -17,9 +17,14 @@ import { ShareService } from '../../../services/share.service';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
+  private shareService = inject(ShareService);
+
   currentYear = new Date().getFullYear();
 
-  constructor(private shareService: ShareService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   shareApp() {
     this.shareService.shareApp();

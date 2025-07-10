@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -363,6 +363,9 @@ import { Person } from '../../models/person.model';
   `]
 })
 export class WatchlistComponent implements OnInit, OnDestroy {
+  private watchlistService = inject(WatchlistService);
+  private analyticsService = inject(AnalyticsService);
+
   private destroy$ = new Subject<void>();
   
   watchlistItems: WatchlistItem[] = [];
@@ -384,10 +387,10 @@ export class WatchlistComponent implements OnInit, OnDestroy {
     watched: 0
   };
 
-  constructor(
-    private watchlistService: WatchlistService,
-    private analyticsService: AnalyticsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.loadWatchlist();

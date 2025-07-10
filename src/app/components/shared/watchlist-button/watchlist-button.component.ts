@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -101,6 +101,8 @@ import { Person } from '../../../models/person.model';
   `]
 })
 export class WatchlistButtonComponent implements OnInit {
+  private watchlistService = inject(WatchlistService);
+
   @Input() item?: Movie | Person;
   @Input() type?: 'movie' | 'person';
   @Input() disabled = false;
@@ -110,7 +112,10 @@ export class WatchlistButtonComponent implements OnInit {
   isInWatchlist = false;
   watchlistItem?: WatchlistItem;
 
-  constructor(private watchlistService: WatchlistService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     if (this.item && this.type) {

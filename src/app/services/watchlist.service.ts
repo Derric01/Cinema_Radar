@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Movie } from '../models/movie.model';
@@ -18,10 +18,15 @@ export interface WatchlistItem {
   providedIn: 'root'
 })
 export class WatchlistService {
+  private platformId = inject(PLATFORM_ID);
+
   private readonly WATCHLIST_KEY = 'cinema-radar-watchlist';
   private watchlistSubject = new BehaviorSubject<WatchlistItem[]>(this.loadWatchlist());
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get watchlist$(): Observable<WatchlistItem[]> {
     return this.watchlistSubject.asObservable();

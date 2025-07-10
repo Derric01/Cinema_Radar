@@ -1,36 +1,51 @@
 <div class="home-container">
   <!-- Hero Section with Featured Movie -->
-  <section class="hero-section" *ngIf="featuredMovie" [style.background-image]="'url(' + getFeaturedMovieBackdrop() + ')'">
+  <section class="hero-section" *ngIf="featuredMovie">
+    <div class="hero-backdrop" [style.background-image]="'url(' + getFeaturedMovieBackdrop() + ')'"></div>
     <div class="hero-overlay">
       <div class="hero-content">
-        <div class="hero-info">
-          <h1 class="hero-title">{{ featuredMovie.title }}</h1>
-          <div class="hero-meta">
-            <span class="rating">
-              <mat-icon>star</mat-icon>
-              {{ featuredMovie.vote_average | number:'1.1-1' }}
-            </span>
-            <span class="year">{{ featuredMovie.release_date | date:'yyyy' }}</span>
-            <span class="genres" *ngIf="featuredMovie.genre_ids">
-              {{ tmdbService.getGenreNames(featuredMovie.genre_ids).slice(0, 3).join(', ') }}
-            </span>
-          </div>
-          <p class="hero-overview">{{ featuredMovie.overview }}</p>
-          <div class="hero-actions">
-            <button mat-raised-button color="primary" [routerLink]="['/movie', featuredMovie.id]" class="watch-btn">
-              <mat-icon>play_arrow</mat-icon>
-              View Details
-            </button>
-            <button mat-stroked-button color="accent" class="trailer-btn">
-              <mat-icon>movie</mat-icon>
-              Watch Trailer
-            </button>
-          </div>
-        </div>
+        <mat-card class="hero-card" appearance="raised">
+          <mat-card-content>
+            <div class="hero-info">
+              <h1 class="hero-title">{{ featuredMovie.title }}</h1>
+              <div class="hero-meta">
+                <mat-chip-set>
+                  <mat-chip class="rating-chip">
+                    <mat-icon matChipLeading>star</mat-icon>
+                    {{ featuredMovie.vote_average | number:'1.1-1' }}
+                  </mat-chip>
+                  <mat-chip class="year-chip">
+                    <mat-icon matChipLeading>calendar_today</mat-icon>
+                    {{ featuredMovie.release_date | date:'yyyy' }}
+                  </mat-chip>
+                  <mat-chip class="genre-chip" *ngIf="featuredMovie.genre_ids">
+                    <mat-icon matChipLeading>category</mat-icon>
+                    {{ tmdbService.getGenreNames(featuredMovie.genre_ids).slice(0, 2).join(', ') }}
+                  </mat-chip>
+                </mat-chip-set>
+              </div>
+              <p class="hero-overview">{{ featuredMovie.overview }}</p>
+              <div class="hero-actions">
+                <button mat-fab color="primary" [routerLink]="['/movie', featuredMovie.id]" 
+                        class="primary-action" matTooltip="View Movie Details">
+                  <mat-icon>play_arrow</mat-icon>
+                </button>
+                <button mat-raised-button color="accent" [routerLink]="['/movie', featuredMovie.id]" 
+                        class="secondary-action">
+                  <mat-icon>info</mat-icon>
+                  Details
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
         <div class="hero-poster">
-          <img [src]="tmdbService.getImageUrl(featuredMovie.poster_path, 'w500')" 
-               [alt]="featuredMovie.title" 
-               class="poster-image">
+          <mat-card class="poster-card" appearance="raised">
+            <img [src]="tmdbService.getImageUrl(featuredMovie.poster_path, 'w500')" 
+                 [alt]="featuredMovie.title + ' movie poster'" 
+                 [title]="featuredMovie.title"
+                 class="poster-image">
+          </mat-card>
         </div>
       </div>
     </div>
@@ -46,110 +61,157 @@
     
     <!-- Movie Categories Section -->
     <section class="movies-section">
-      <div class="section-header">
-        <h2>Discover Movies</h2>
-        <div class="category-chips">
-          <mat-chip-set aria-label="Movie categories">
-            <mat-chip *ngFor="let category of movieCategories" 
-                     (click)="selectCategory(category.id)"
-                     [class.selected]="selectedCategory === category.id">
-              <mat-icon>{{ category.icon }}</mat-icon>
-              {{ category.label }}
-            </mat-chip>
-          </mat-chip-set>
-        </div>
-        <button mat-icon-button (click)="refreshContent()" class="refresh-btn" matTooltip="Refresh content">
-          <mat-icon>refresh</mat-icon>
-        </button>
-      </div>
+      <mat-card class="section-card" appearance="outlined">
+        <mat-card-header>
+          <div mat-card-avatar class="section-avatar">
+            <mat-icon>movie</mat-icon>
+          </div>
+          <mat-card-title>Discover Movies</mat-card-title>
+          <mat-card-subtitle>Explore trending, top-rated, and upcoming films</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="category-navigation">
+            <mat-chip-set aria-label="Movie categories" class="category-chips">
+              <mat-chip *ngFor="let category of movieCategories" 
+                       (click)="selectCategory(category.id)"
+                       [class.selected]="selectedCategory === category.id"
+                       [color]="selectedCategory === category.id ? 'primary' : 'default'">
+                <mat-icon matChipLeading>{{ category.icon }}</mat-icon>
+                {{ category.label }}
+              </mat-chip>
+            </mat-chip-set>
+            <button mat-icon-button (click)="refreshContent()" 
+                    class="refresh-btn" 
+                    color="primary"
+                    matTooltip="Refresh content">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
 
-      <div class="movies-grid">
-        <app-movie-card 
-          *ngFor="let movie of getCurrentMovies(); trackBy: trackByMovieId" 
-          [movie]="movie"
-          class="movie-card-item">
-        </app-movie-card>
-      </div>
+          <mat-divider></mat-divider>
 
-      <div class="view-more-section">
-        <button mat-raised-button [routerLink]="['/search']" class="view-more-btn">
-          <mat-icon>explore</mat-icon>
-          Explore All Movies
-        </button>
-      </div>
+          <div class="movies-grid">
+            <app-movie-card 
+              *ngFor="let movie of getCurrentMovies(); trackBy: trackByMovieId" 
+              [movie]="movie"
+              class="movie-card-item">
+            </app-movie-card>
+          </div>
+
+          <div class="view-more-section">
+            <button mat-raised-button 
+                    [routerLink]="['/search']" 
+                    color="primary"
+                    class="view-more-btn">
+              <mat-icon>explore</mat-icon>
+              Explore All Movies
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </section>
 
     <!-- Popular Actors Section -->
     <section class="actors-section">
-      <div class="section-header">
-        <h2>Popular Actors</h2>
-        <p class="section-subtitle">Discover talented performers</p>
-      </div>
+      <mat-card class="section-card" appearance="outlined">
+        <mat-card-header>
+          <div mat-card-avatar class="section-avatar">
+            <mat-icon>people</mat-icon>
+          </div>
+          <mat-card-title>Popular Actors</mat-card-title>
+          <mat-card-subtitle>Discover talented performers making waves in cinema</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="actors-grid">
+            <app-person-card 
+              *ngFor="let actor of popularActors; trackBy: trackByPersonId" 
+              [person]="actor"
+              class="actor-card-item">
+            </app-person-card>
+          </div>
 
-      <div class="actors-grid">
-        <app-person-card 
-          *ngFor="let actor of popularActors; trackBy: trackByPersonId" 
-          [person]="actor"
-          class="actor-card-item">
-        </app-person-card>
-      </div>
-
-      <div class="view-more-section">
-        <button mat-raised-button [routerLink]="['/search']" class="view-more-btn">
-          <mat-icon>people</mat-icon>
-          View All Actors
-        </button>
-      </div>
+          <div class="view-more-section">
+            <button mat-raised-button 
+                    [routerLink]="['/search']" 
+                    color="primary"
+                    class="view-more-btn">
+              <mat-icon>people</mat-icon>
+              View All Actors
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </section>
 
     <!-- Features Showcase -->
     <section class="features-section">
-      <div class="section-header">
-        <h2>CinemaRadar Features</h2>
-        <p class="section-subtitle">Everything you need for the ultimate movie experience</p>
-      </div>
+      <mat-card class="section-card" appearance="outlined">
+        <mat-card-header>
+          <div mat-card-avatar class="section-avatar">
+            <mat-icon>star</mat-icon>
+          </div>
+          <mat-card-title>CinemaRadar Features</mat-card-title>
+          <mat-card-subtitle>Everything you need for the ultimate movie experience</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="features-grid">
+            <mat-card class="feature-card" appearance="raised">
+              <mat-card-header>
+                <div mat-card-avatar class="feature-avatar">
+                  <mat-icon>favorite</mat-icon>
+                </div>
+                <mat-card-title>Favorites</mat-card-title>
+                <mat-card-subtitle>Save your favorite movies and actors</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Keep track of your favorite movies and actors for quick access anytime.</p>
+              </mat-card-content>
+            </mat-card>
 
-      <div class="features-grid">
-        <mat-card class="feature-card">
-          <mat-card-content>
-            <div class="feature-icon">
-              <mat-icon>favorite</mat-icon>
-            </div>
-            <h3>Favorites</h3>
-            <p>Save your favorite movies and actors for quick access</p>
-          </mat-card-content>
-        </mat-card>
+            <mat-card class="feature-card" appearance="raised">
+              <mat-card-header>
+                <div mat-card-avatar class="feature-avatar">
+                  <mat-icon>share</mat-icon>
+                </div>
+                <mat-card-title>Social Sharing</mat-card-title>
+                <mat-card-subtitle>Share movies and recommendations</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Share your favorite discoveries with friends and family on social media.</p>
+              </mat-card-content>
+            </mat-card>
 
-        <mat-card class="feature-card">
-          <mat-card-content>
-            <div class="feature-icon">
-              <mat-icon>share</mat-icon>
-            </div>
-            <h3>Social Sharing</h3>
-            <p>Share movies and recommendations with friends</p>
-          </mat-card-content>
-        </mat-card>
+            <mat-card class="feature-card" appearance="raised">
+              <mat-card-header>
+                <div mat-card-avatar class="feature-avatar">
+                  <mat-icon>download</mat-icon>
+                </div>
+                <mat-card-title>Movie Cards</mat-card-title>
+                <mat-card-subtitle>Beautiful downloadable cards</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Generate and download beautiful movie cards to save or share offline.</p>
+              </mat-card-content>
+            </mat-card>
 
-        <mat-card class="feature-card">
-          <mat-card-content>
-            <div class="feature-icon">
-              <mat-icon>download</mat-icon>
-            </div>
-            <h3>Movie Cards</h3>
-            <p>Download beautiful movie cards to save or share</p>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="feature-card">
-          <mat-card-content>
-            <div class="feature-icon">
-              <mat-icon>search</mat-icon>
-            </div>
-            <h3>Advanced Search</h3>
-            <p>Find exactly what you're looking for with smart filters</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
+            <mat-card class="feature-card" appearance="raised">
+              <mat-card-header>
+                <div mat-card-avatar class="feature-avatar">
+                  <mat-icon>search</mat-icon>
+                </div>
+                <mat-card-title>Smart Search</mat-card-title>
+                <mat-card-subtitle>Find exactly what you're looking for</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>Advanced search with smart filters to discover your next favorite movie.</p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </section>
 
   </div>

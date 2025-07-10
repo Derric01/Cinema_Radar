@@ -30,11 +30,11 @@ export class LoadingService {
     this.loadingSubject.next(this.loadingMap.size > 0);
   }
 
-  show(key: string = 'default'): void {
+  show(key = 'default'): void {
     this.setLoading(key, true);
   }
 
-  hide(key: string = 'default'): void {
+  hide(key = 'default'): void {
     this.setLoading(key, false);
   }
 

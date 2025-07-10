@@ -1,41 +1,44 @@
-<mat-toolbar class="header">
+<mat-toolbar class="header" color="primary">
   <div class="toolbar">
     <!-- Logo and Brand -->
     <div class="brand-section">
-      <button mat-icon-button routerLink="/" class="logo-button">
+      <button mat-icon-button (click)="navigateToHome()" class="logo-button" matRipple>
         <mat-icon class="cinema-icon">movie</mat-icon>
       </button>
-      <h1 class="brand-title" routerLink="/">
+      <h1 class="brand-title" (click)="navigateToHome()" matRipple>
         <span class="cinema">Cinema</span><span class="radar">Radar</span>
       </h1>
     </div>
 
     <!-- Navigation Links -->
     <nav class="nav-links" *ngIf="!isMobile">
-      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" 
+         class="nav-link">
         <mat-icon>home</mat-icon>
         Home
       </a>
-      <a mat-button routerLink="/search" routerLinkActive="active">
-        <mat-icon>search</mat-icon>
+      <a mat-button routerLink="/search" routerLinkActive="active" class="nav-link">
+        <mat-icon>explore</mat-icon>
         Discover
       </a>
-      <a mat-button routerLink="/watchlist" routerLinkActive="active">
+      <a mat-button routerLink="/watchlist" routerLinkActive="active" class="nav-link">
         <mat-icon>bookmark</mat-icon>
         Watchlist
       </a>
     </nav>
 
     <!-- Search Bar -->
-    <div class="search-section">
+    <div class="search-section" [class.focused]="isSearchFocused">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Search movies, actors...</mat-label>
         <input 
           matInput 
           [formControl]="searchControl"
           (keydown.enter)="onSearchSubmit()"
+          (focus)="onSearchFocus()"
+          (blur)="onSearchBlur()"
           placeholder="What are you looking for?">
-        <mat-icon matSuffix>search</mat-icon>
+        <mat-icon matSuffix class="search-icon">search</mat-icon>
       </mat-form-field>
     </div>
 
@@ -47,8 +50,9 @@
         (click)="navigateToFavorites()"
         [matBadge]="favoritesCount > 0 ? favoritesCount : null"
         matBadgeColor="accent"
-        matTooltip="Favorites"
-        aria-hidden="false">
+        matBadgeSize="small"
+        matTooltip="My Favorites"
+        class="action-btn favorites-btn">
         <mat-icon>favorite</mat-icon>
       </button>
 
@@ -56,12 +60,13 @@
       <button 
         mat-icon-button 
         (click)="toggleTheme()"
-        [matTooltip]="isDarkTheme ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+        [matTooltip]="isDarkTheme ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+        class="action-btn theme-btn">
         <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
 
       <!-- Menu for mobile -->
-      <button mat-icon-button [matMenuTriggerFor]="mobileMenu" *ngIf="isMobile">
+      <button mat-icon-button [matMenuTriggerFor]="mobileMenu" *ngIf="isMobile" class="action-btn menu-btn">
         <mat-icon>menu</mat-icon>
       </button>
     </div>
@@ -69,24 +74,25 @@
 
   <!-- Mobile Menu -->
   <mat-menu #mobileMenu="matMenu" class="mobile-menu">
-    <a mat-menu-item routerLink="/">
+    <a mat-menu-item routerLink="/" class="menu-item">
       <mat-icon>home</mat-icon>
       <span>Home</span>
     </a>
-    <a mat-menu-item routerLink="/search">
-      <mat-icon>search</mat-icon>
+    <a mat-menu-item routerLink="/search" class="menu-item">
+      <mat-icon>explore</mat-icon>
       <span>Discover</span>
     </a>
-    <a mat-menu-item routerLink="/watchlist">
+    <a mat-menu-item routerLink="/watchlist" class="menu-item">
       <mat-icon>bookmark</mat-icon>
       <span>Watchlist</span>
     </a>
-    <button mat-menu-item (click)="navigateToFavorites()">
-      <mat-icon [matBadge]="favoritesCount > 0 ? favoritesCount : null" aria-hidden="false">favorite</mat-icon>
-      <span>Favorites ({{ favoritesCount }})</span>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="navigateToFavorites()" class="menu-item">
+      <mat-icon [matBadge]="favoritesCount > 0 ? favoritesCount : null" matBadgeColor="accent" matBadgeSize="small">favorite</mat-icon>
+      <span>Favorites{{ favoritesCount > 0 ? ' (' + favoritesCount + ')' : '' }}</span>
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="toggleTheme()">
+    <button mat-menu-item (click)="toggleTheme()" class="menu-item">
       <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
       <span>{{ isDarkTheme ? 'Light Mode' : 'Dark Mode' }}</span>
     </button>

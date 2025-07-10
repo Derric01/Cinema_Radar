@@ -1,0 +1,153 @@
+// CinemaRadar Material Design Theme
+@use '@angular/material' as mat;
+
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Define custom color palettes using predefined Material palettes
+$cinema-primary: mat.m2-define-palette(mat.$m2-red-palette, 600);
+$cinema-accent: mat.m2-define-palette(mat.$m2-amber-palette, 500);
+$cinema-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+// Define the light theme
+$light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $cinema-primary,
+    accent: $cinema-accent,
+    warn: $cinema-warn,
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+// Define the dark theme
+$dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $cinema-primary,
+    accent: $cinema-accent,
+    warn: $cinema-warn,
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+// Apply the light theme by default
+@include mat.all-component-themes($light-theme);
+
+// Apply dark theme when .dark-theme class is present
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+}
+
+// Enhanced Material Design customizations
+.mat-mdc-card {
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  
+  &:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-2px) !important;
+  }
+  
+  .mat-mdc-card-content {
+    padding: 24px !important;
+  }
+}
+
+.mat-mdc-button {
+  border-radius: 12px !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  
+  &.mat-mdc-raised-button {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    
+    &:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+    }
+  }
+  
+  &.mat-mdc-fab {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+    }
+  }
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-form-field-outline {
+    border-radius: 12px !important;
+  }
+  
+  &.mat-form-field-appearance-outline {
+    .mat-mdc-form-field-outline-thick {
+      border-width: 2px !important;
+    }
+  }
+}
+
+.mat-mdc-chip {
+  border-radius: 16px !important;
+  font-weight: 500 !important;
+  
+  &.mat-mdc-chip-selected {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+.mat-mdc-menu-panel {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+  
+  .mat-mdc-menu-item {
+    height: 48px !important;
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+  }
+}
+
+// Enhanced elevation system
+.elevation-0 { box-shadow: none !important; }
+.elevation-1 { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; }
+.elevation-2 { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important; }
+.elevation-3 { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important; }
+.elevation-4 { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important; }
+.elevation-5 { box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2) !important; }
+.elevation-6 { box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25) !important; }
+
+// Dark theme elevation adjustments
+.dark-theme {
+  .elevation-1 { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; }
+  .elevation-2 { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35) !important; }
+  .elevation-3 { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important; }
+  .elevation-4 { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4) !important; }
+  .elevation-5 { box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45) !important; }
+  .elevation-6 { box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5) !important; }
+}
+
+// Material Design motion
+.mat-ripple-element {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+// Enhanced focus indicators
+.mat-mdc-button:focus,
+.mat-mdc-icon-button:focus,
+.mat-mdc-fab:focus {
+  outline: 2px solid #dc2626 !important;
+  outline-offset: 2px !important;
+}
+
+.dark-theme {
+  .mat-mdc-button:focus,
+  .mat-mdc-icon-button:focus,
+  .mat-mdc-fab:focus {
+    outline-color: #ef4444 !important;
+  }
+}

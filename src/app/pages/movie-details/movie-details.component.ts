@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -37,6 +37,14 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './movie-details.component.scss'
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private tmdbService = inject(TmdbService);
+  private loadingService = inject(LoadingService);
+  private shareService = inject(ShareService);
+  private cardGeneratorService = inject(CardGeneratorService);
+  private dialog = inject(MatDialog);
+
   movie: MovieDetails | null = null;
   credits: MovieCredits | null = null;
   similarMovies: Movie[] = [];
@@ -44,15 +52,10 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private tmdbService: TmdbService,
-    private loadingService: LoadingService,
-    private shareService: ShareService,
-    private cardGeneratorService: CardGeneratorService,
-    private dialog: MatDialog
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.route.params.pipe(
@@ -259,7 +262,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy {
   }
 
   getOriginalLanguage(): string {
-    const languageMap: { [key: string]: string } = {
+    const languageMap: Record<string, string> = {
       'en': 'English',
       'es': 'Spanish',
       'fr': 'French',

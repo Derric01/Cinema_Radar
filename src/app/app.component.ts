@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/layout/header/header.component';
@@ -25,15 +25,18 @@ import { Observable, Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private themeService = inject(ThemeService);
+  private loadingService = inject(LoadingService);
+  private notificationService = inject(NotificationService);
+
   title = 'CinemaRadar';
   isLoading$: Observable<boolean>;
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private themeService: ThemeService,
-    private loadingService: LoadingService,
-    private notificationService: NotificationService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.isLoading$ = this.loadingService.isLoading$;
   }
 

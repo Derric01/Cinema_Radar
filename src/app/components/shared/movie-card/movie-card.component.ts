@@ -5,6 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
 
 import { Movie } from '../../../models/movie.model';
@@ -25,6 +28,9 @@ import { WatchlistButtonComponent } from '../watchlist-button/watchlist-button.c
     MatIconModule,
     MatTooltipModule,
     MatMenuModule,
+    MatChipsModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
     RouterModule,
     FavoritesButtonComponent,
     WatchlistButtonComponent

@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -17,14 +17,17 @@ interface PerformanceMetrics {
   providedIn: 'root'
 })
 export class PerformanceService {
-  private metrics: PerformanceMetrics[] = [];
-  private navigationStart: number = 0;
-  private currentPage: string = '';
+  private platformId = inject(PLATFORM_ID);
+  private router = inject(Router);
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router
-  ) {
+  private metrics: PerformanceMetrics[] = [];
+  private navigationStart = 0;
+  private currentPage = '';
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.initializePerformanceMonitoring();
     }

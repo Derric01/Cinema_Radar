@@ -1,10 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 import { Subject, takeUntil } from 'rxjs';
 
 import { TmdbService } from '../../services/tmdb.service';
@@ -16,6 +20,7 @@ import { Person, PersonDetails, PersonMovieCredits } from '../../models/person.m
 import { Movie } from '../../models/movie.model';
 import { FavoritesButtonComponent } from '../../components/shared/favorites-button/favorites-button.component';
 import { WatchlistButtonComponent } from '../../components/shared/watchlist-button/watchlist-button.component';
+import { MovieCardComponent } from '../../components/shared/movie-card/movie-card.component';
 
 @Component({
   selector: 'app-actor-details',
@@ -26,28 +31,36 @@ import { WatchlistButtonComponent } from '../../components/shared/watchlist-butt
     MatButtonModule,
     MatChipsModule,
     MatProgressSpinnerModule,
+    MatCardModule,
+    MatDividerModule,
+    MatTooltipModule,
+    MatTabsModule,
     FavoritesButtonComponent,
-    WatchlistButtonComponent
+    WatchlistButtonComponent,
+    MovieCardComponent
   ],
   templateUrl: './actor-details.component.html',
   styleUrl: './actor-details.component.scss'
 })
 export class ActorDetailsComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  tmdbService = inject(TmdbService);
+  loadingService = inject(LoadingService);
+  private shareService = inject(ShareService);
+  private favoritesService = inject(FavoritesService);
+  private analyticsService = inject(AnalyticsService);
+
   person: PersonDetails | null = null;
   credits: PersonMovieCredits | null = null;
   knownForMovies: Movie[] = [];
   
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    public tmdbService: TmdbService,
-    public loadingService: LoadingService,
-    private shareService: ShareService,
-    private favoritesService: FavoritesService,
-    private analyticsService: AnalyticsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {

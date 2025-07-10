@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,6 +37,11 @@ import { PersonCardComponent } from '../../components/shared/person-card/person-
   styleUrl: './search.component.scss'
 })
 export class SearchComponent implements OnInit, OnDestroy {
+  private tmdbService = inject(TmdbService);
+  private loadingService = inject(LoadingService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
   searchQuery = '';
   movies: Movie[] = [];
   persons: Person[] = [];
@@ -45,12 +50,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
-  constructor(
-    private tmdbService: TmdbService,
-    private loadingService: LoadingService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     // Set up debounced search
     this.searchSubject.pipe(
       debounceTime(300),

@@ -1,80 +1,206 @@
-<div class="actor-details-container" *ngIf="person">
-  <<div class="loading-container" *ngIf="loadingService.isLoadingKey('actor-details')">
-  <mat-spinner></mat-spinner>
-  <p>Loading actor details...</p>
-</div>Hero Section -->
-  <div class="hero-section">
+<!-- Enhanced Actor Details with Material Design -->
+<div class="actor-details-container" *ngIf="person && !isLoading">
+  <!-- Material Design Hero Section -->
+  <div class="hero-section elevation-4">
     <div class="hero-content">
-      <div class="profile-image-container">
-        <img [src]="getProfileUrl()" [alt]="person.name + ' profile photo'" [title]="person.name" class="profile-image">
-      </div>
+      <!-- Profile Image Card -->
+      <mat-card class="profile-card elevation-6">
+        <div class="profile-image-container">
+          <img [src]="getProfileUrl()" 
+               [alt]="person.name + ' profile photo'" 
+               [title]="person.name" 
+               class="profile-image">
+          <div class="profile-overlay">
+            <div class="popularity-badge" *ngIf="person.popularity > 0">
+              <mat-icon>trending_up</mat-icon>
+              <span>{{ person.popularity | number:'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card>
       
+      <!-- Actor Information -->
       <div class="actor-info">
-        <h1 class="actor-name">{{ person.name }}</h1>
+        <div class="actor-header">
+          <h1 class="actor-name mat-display-1">{{ person.name }}</h1>
+          <mat-chip-set class="department-chip-set">
+            <mat-chip class="department-chip" color="primary">
+              <mat-icon matChipAvatar>work</mat-icon>
+              {{ getKnownFor() }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
         
+        <!-- Enhanced Meta Information -->
         <div class="actor-meta">
-          <div class="meta-item">
-            <mat-icon>cake</mat-icon>
-            <span>{{ getAge() }} years old</span>
-          </div>
-          
-          <div class="meta-item" *ngIf="person.place_of_birth">
-            <mat-icon>place</mat-icon>
-            <span>{{ getBirthPlace() }}</span>
-          </div>
-          
-          <div class="meta-item">
-            <mat-icon>work</mat-icon>
-            <span>{{ person.known_for_department }}</span>
+          <div class="meta-grid">
+            <div class="meta-item">
+              <mat-icon class="meta-icon">cake</mat-icon>
+              <div class="meta-content">
+                <span class="meta-label">Age</span>
+                <span class="meta-value">{{ getAge() }} years old</span>
+              </div>
+            </div>
+            
+            <div class="meta-item" *ngIf="person.birthday">
+              <mat-icon class="meta-icon">calendar_today</mat-icon>
+              <div class="meta-content">
+                <span class="meta-label">Birthday</span>
+                <span class="meta-value">{{ getBirthday() }}</span>
+              </div>
+            </div>
+            
+            <div class="meta-item" *ngIf="person.place_of_birth">
+              <mat-icon class="meta-icon">place</mat-icon>
+              <div class="meta-content">
+                <span class="meta-label">Birth Place</span>
+                <span class="meta-value">{{ getBirthPlace() }}</span>
+              </div>
+            </div>
+            
+            <div class="meta-item">
+              <mat-icon class="meta-icon">star</mat-icon>
+              <div class="meta-content">
+                <span class="meta-label">Popularity</span>
+                <span class="meta-value">{{ person.popularity | number:'1.1-1' }}</span>
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Enhanced Action Buttons -->
         <div class="action-buttons">
           <app-favorites-button 
             [item]="getPersonForButtons()"
             type="person"
-            size="medium">
+            size="medium"
+            class="action-button">
           </app-favorites-button>
 
           <app-watchlist-button 
             [item]="getPersonForButtons()"
             type="person"
-            size="medium">
+            size="medium"
+            class="action-button">
           </app-watchlist-button>
 
-          <button mat-raised-button color="primary" (click)="shareActor()">
+          <button mat-raised-button 
+                  color="primary" 
+                  (click)="shareActor()"
+                  class="action-button share-button">
             <mat-icon>share</mat-icon>
-            Share
+            <span>Share Actor</span>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Biography Section -->
-  <div class="biography-section" *ngIf="person.biography">
-    <h2>Biography</h2>
-    <p class="biography-text">{{ person.biography }}</p>
-  </div>
+  <!-- Material Design Tabbed Content -->
+  <div class="content-container">
+    <mat-tab-group mat-align-tabs="center" class="content-tabs">
+      <!-- Biography Tab -->
+      <mat-tab label="Biography" *ngIf="person.biography">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <mat-card class="biography-card elevation-2">
+              <mat-card-header>
+                <mat-card-title>
+                  <mat-icon>person</mat-icon>
+                  Biography
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p class="biography-text">{{ person.biography }}</p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-template>
+      </mat-tab>
 
-  <!-- Known For Section -->
-  <div class="known-for-section" *ngIf="knownForMovies.length > 0">
-    <h2>Known For</h2>
-    <div class="movies-grid">
-      <div *ngFor="let movie of knownForMovies" class="movie-item" [routerLink]="['/movie', movie.id]">
-        <img [src]="tmdbService.getImageUrl(movie.poster_path, 'w300')" 
-             [alt]="movie.title + ' poster'" 
-             [title]="movie.title"
-             class="movie-poster"
-             loading="lazy">
-        <h3>{{ movie.title }}</h3>
-        <p>{{ movie.release_date | date: 'yyyy' }}</p>
-      </div>
-    </div>
+      <!-- Filmography Tab -->
+      <mat-tab label="Known For" *ngIf="knownForMovies.length > 0">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <mat-card class="filmography-card elevation-2">
+              <mat-card-header>
+                <mat-card-title>
+                  <mat-icon>movie</mat-icon>
+                  Known For Movies
+                </mat-card-title>
+                <mat-card-subtitle>
+                  {{ knownForMovies.length }} movies
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="movies-grid">
+                  <app-movie-card 
+                    *ngFor="let movie of knownForMovies; trackBy: trackByMovieId"
+                    [movie]="movie"
+                    [compact]="false"
+                    class="movie-card-item">
+                  </app-movie-card>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Notable Movies Tab -->
+      <mat-tab label="Notable Movies" *ngIf="notableMovies.length > 0">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <mat-card class="notable-movies-card elevation-2">
+              <mat-card-header>
+                <mat-card-title>
+                  <mat-icon>star</mat-icon>
+                  Notable Movies
+                </mat-card-title>
+                <mat-card-subtitle>
+                  Highly rated movies (7.0+)
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="movies-grid">
+                  <app-movie-card 
+                    *ngFor="let movie of notableMovies; trackBy: trackByMovieId"
+                    [movie]="movie"
+                    [compact]="false"
+                    class="movie-card-item">
+                  </app-movie-card>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
 
-<div class="loading-container" *ngIf="loadingService.isLoadingKey('actor-details')">
-  <mat-spinner></mat-spinner>
-  <p>Loading actor details...</p>
+<!-- Enhanced Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <div class="loading-content">
+    <mat-spinner diameter="60" color="primary"></mat-spinner>
+    <h2 class="loading-title">Loading actor details...</h2>
+    <p class="loading-subtitle">Please wait while we fetch the information</p>
+  </div>
+</div>
+
+<!-- Error State -->
+<div class="error-container" *ngIf="!isLoading && !person">
+  <mat-card class="error-card elevation-2">
+    <mat-card-content>
+      <div class="error-content">
+        <mat-icon class="error-icon">error_outline</mat-icon>
+        <h2 class="error-title">Actor Not Found</h2>
+        <p class="error-message">The actor you're looking for doesn't exist or has been removed.</p>
+        <button mat-raised-button color="primary" routerLink="/">
+          <mat-icon>home</mat-icon>
+          Go to Homepage
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

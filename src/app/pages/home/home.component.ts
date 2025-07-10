@@ -5,6 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
 import { RouterModule } from '@angular/router';
 import { Subject, takeUntil, forkJoin } from 'rxjs';
 
@@ -26,6 +30,10 @@ import { LoadingSkeletonComponent } from '../../components/shared/loading-skelet
     MatCardModule,
     MatChipsModule,
     MatGridListModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
+    MatBadgeModule,
     RouterModule,
     MovieCardComponent,
     PersonCardComponent,

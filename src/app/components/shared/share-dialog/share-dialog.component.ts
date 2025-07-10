@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,6 +36,9 @@ export interface ShareDialogData {
   styleUrl: './share-dialog.component.scss'
 })
 export class ShareDialogComponent {
+  dialogRef = inject<MatDialogRef<ShareDialogComponent>>(MatDialogRef);
+  data = inject<ShareDialogData>(MAT_DIALOG_DATA);
+
   shareOptions = [
     {
       name: 'Copy Link',
@@ -69,10 +72,10 @@ export class ShareDialogComponent {
     }
   ];
 
-  constructor(
-    public dialogRef: MatDialogRef<ShareDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ShareDialogData
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   async copyToClipboard(): Promise<void> {
     try {

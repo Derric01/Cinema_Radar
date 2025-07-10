@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
@@ -22,12 +22,17 @@ import { SearchResponse, MultiSearchResult } from '../models/search.model';
   providedIn: 'root'
 })
 export class TmdbService {
+  private http = inject(HttpClient);
+
   private cache = new Map<string, any>();
   private readonly CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
   private readonly baseUrl = environment.tmdbBaseUrl;
   private readonly apiKey = environment.tmdbApiKey;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
   
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   private getCachedData<T>(key: string): T | null {
     const cached = this.cache.get(key);
@@ -45,7 +50,7 @@ export class TmdbService {
   }
 
   // Movie endpoints
-  getTopRatedMovies(page: number = 1): Observable<MovieResponse> {
+  getTopRatedMovies(page = 1): Observable<MovieResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('page', page.toString());
@@ -53,7 +58,7 @@ export class TmdbService {
     return this.http.get<MovieResponse>(`${this.baseUrl}/movie/top_rated`, { params });
   }
 
-  getUpcomingMovies(page: number = 1): Observable<MovieResponse> {
+  getUpcomingMovies(page = 1): Observable<MovieResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('page', page.toString());
@@ -61,7 +66,7 @@ export class TmdbService {
     return this.http.get<MovieResponse>(`${this.baseUrl}/movie/upcoming`, { params });
   }
 
-  getPopularMovies(page: number = 1): Observable<MovieResponse> {
+  getPopularMovies(page = 1): Observable<MovieResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('page', page.toString());
@@ -69,7 +74,7 @@ export class TmdbService {
     return this.http.get<MovieResponse>(`${this.baseUrl}/movie/popular`, { params });
   }
 
-  getNowPlayingMovies(page: number = 1): Observable<MovieResponse> {
+  getNowPlayingMovies(page = 1): Observable<MovieResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('page', page.toString());
@@ -95,7 +100,7 @@ export class TmdbService {
     return this.http.get<MovieVideos>(`${this.baseUrl}/movie/${movieId}/videos`, { params });
   }
 
-  getSimilarMovies(movieId: number, page: number = 1): Observable<MovieResponse> {
+  getSimilarMovies(movieId: number, page = 1): Observable<MovieResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('page', page.toString());
@@ -103,7 +108,7 @@ export class TmdbService {
     return this.http.get<MovieResponse>(`${this.baseUrl}/movie/${movieId}/similar`, { params });
   }
 
-  getTrendingMovies(page: number = 1): Observable<MovieResponse> {
+  getTrendingMovies(page = 1): Observable<MovieResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('page', page.toString());
@@ -123,7 +128,7 @@ export class TmdbService {
   }
 
   // Person endpoints
-  getPopularPeople(page: number = 1): Observable<PersonResponse> {
+  getPopularPeople(page = 1): Observable<PersonResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('page', page.toString());
@@ -143,12 +148,12 @@ export class TmdbService {
     return this.http.get<PersonMovieCredits>(`${this.baseUrl}/person/${personId}/movie_credits`, { params });
   }
 
-  getPopularActors(page: number = 1): Observable<PersonResponse> {
+  getPopularActors(page = 1): Observable<PersonResponse> {
     return this.getPopularPeople(page);
   }
 
   // Search endpoints
-  searchMovies(query: string, page: number = 1): Observable<MovieResponse> {
+  searchMovies(query: string, page = 1): Observable<MovieResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('query', query)
@@ -157,7 +162,7 @@ export class TmdbService {
     return this.http.get<MovieResponse>(`${this.baseUrl}/search/movie`, { params });
   }
 
-  searchPeople(query: string, page: number = 1): Observable<PersonResponse> {
+  searchPeople(query: string, page = 1): Observable<PersonResponse> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('query', query)
@@ -166,7 +171,7 @@ export class TmdbService {
     return this.http.get<PersonResponse>(`${this.baseUrl}/search/person`, { params });
   }
 
-  multiSearch(query: string, page: number = 1): Observable<SearchResponse<MultiSearchResult>> {
+  multiSearch(query: string, page = 1): Observable<SearchResponse<MultiSearchResult>> {
     const params = new HttpParams()
       .set('api_key', this.apiKey)
       .set('query', query)
@@ -176,12 +181,12 @@ export class TmdbService {
   }
 
   // Utility methods
-  getImageUrl(path: string | null, size: string = 'w500'): string {
+  getImageUrl(path: string | null, size = 'w500'): string {
     if (!path) return '/assets/images/no-image-placeholder.jpg';
     return `${environment.tmdbImageBaseUrl}/${size}${path}`;
   }
 
-  getBackdropUrl(path: string | null, size: string = 'w1280'): string {
+  getBackdropUrl(path: string | null, size = 'w1280'): string {
     if (!path) return '/assets/images/no-backdrop-placeholder.jpg';
     return `${environment.tmdbImageBaseUrl}/${size}${path}`;
   }
@@ -206,7 +211,7 @@ export class TmdbService {
   }
 
   getGenreNames(genreIds: number[]): string[] {
-    const genreMap: { [key: number]: string } = {
+    const genreMap: Record<number, string> = {
       28: 'Action',
       12: 'Adventure',
       16: 'Animation',

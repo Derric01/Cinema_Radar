@@ -26,7 +26,7 @@ export class NotificationService {
   show(
     message: string,
     type: 'success' | 'error' | 'warning' | 'info' = 'info',
-    duration: number = 5000,
+    duration = 5000,
     action?: { label: string; handler: () => void }
   ): string {
     const id = `notification-${++this.notificationId}`;

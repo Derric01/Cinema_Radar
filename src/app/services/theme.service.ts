@@ -1,4 +1,4 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -8,10 +8,15 @@ export type Theme = 'dark' | 'light';
   providedIn: 'root'
 })
 export class ThemeService {
+  private platformId = inject(PLATFORM_ID);
+
   private readonly THEME_KEY = 'cinema-radar-theme';
   private themeSubject = new BehaviorSubject<Theme>(this.getInitialTheme());
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.applyTheme(this.themeSubject.value);
   }
 
